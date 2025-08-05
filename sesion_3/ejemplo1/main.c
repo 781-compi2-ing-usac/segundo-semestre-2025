@@ -11,3 +11,32 @@ int main(void) {
     }
     return 0;
 }
+
+/*
+int main() {
+    NodoTipoA raiz;
+    NodoTipoA_init(&raiz, "RaizA", 100);
+
+    NodoTipoB hijo1;
+    NodoTipoB_init(&hijo1, "HijoB1", "Hola mundo");
+
+    NodoTipoA hijo2;
+    NodoTipoA_init(&hijo2, "HijoA2", 200);
+
+    NodoTipoB nieto1;
+    NodoTipoB_init(&nieto1, "NietoB1", "Soy nieto");
+
+    // Construir el árbol
+    NodoBase_addHijo((NodoBase*)&raiz, (NodoBase*)&hijo1);
+    NodoBase_addHijo((NodoBase*)&raiz, (NodoBase*)&hijo2);
+    NodoBase_addHijo((NodoBase*)&hijo2, (NodoBase*)&nieto1);
+
+    // Recorrer y ejecutar polimórficamente
+    NodoBase_recorrer((NodoBase*)&raiz);
+
+    // Liberar memoria de hijos (simplificado)
+    free(raiz.base.hijos);
+    free(hijo2.base.hijos);
+
+    return 0;
+}*/
