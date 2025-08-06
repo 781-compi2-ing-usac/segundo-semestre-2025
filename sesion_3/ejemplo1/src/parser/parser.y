@@ -1,7 +1,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include ""
+#include "../cst/expresiones/primitivos.c"
+#include "../cst/sentencias/print.c"
 
 /* Prototipo del scanner */
 extern int yylex(void);
@@ -17,26 +18,31 @@ void yyerror(const char *s);
 /* Unión de tipos semánticos */
 %union {
   int num;
+  NodoTipoA primitivo;
+  char* string;
+  double double;
 }
 
 /* Tokens tipados */
-%token <num> NUMBER
-/* Tipo de los no-terminales que llevan valor */
-%type  <num> expr
+%token <string> AND ARRAY MAYOR MENOR NEGACION IGUAL STRING IDENTIFIER
+%token <num> UNSIGNED_INTEGER
+%token <double> REAL
 
-/* Precedencias */
-%left '+' '-'
-%left '*' '/'
+/* Tipo de los no-terminales que llevan valor */
+%type  <primitivo> expr 
+%type  <primitivo> expr 
+
+// precedencia menor a mayor
+%left NUMERO
+%left '+' '-' //menos -
+%left '*' '/' //más
+%left NEG
 
 %%
 
 %start s;
 
-s: lSentencia  { 
-    intr.raiz = new NT_S($1);
-    $$ = intr.raiz; 
-    }
-;
+s: lSentencia  { $$ = $1; };
     
 
 lSentencia: lSentencia sentencia z {
@@ -85,14 +91,14 @@ asignacion_var: ID '=' expr {   T_ID* id_avar = new T_ID(QString::fromStdString(
 
 
     
-expr: expr SUMA expr   { $$ = new NT_Suma($1, $3);  }
-    | expr MENOS expr { $$ = $1;  
+expr: expr '+' expr   { $$ = new NT_Suma($1, $3);  }
+    | expr '-' expr { $$ = $1;  
                         /*pendiente de implementar*/}
     | '(' expr ')' { $$ = $2; }
     | MENOS expr %prec NEG  { $$ = new NT_Negacion($2);  }
     | NUMERO { $$ = new T_Numero( QString::fromStdString($1)); } 
     | ID { $$ = new NT_ID( QString::fromStdString($1)); }
-    | STRING { $$ = new T_String( QString::fromStdString($1));  }
+    | STRING { $$ = NodoTipoA_init($1);  }
     ;
 
 tipo:  INT { $$ = new NT_Tipo( QString::fromStdString($1)); }

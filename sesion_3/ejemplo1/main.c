@@ -9,6 +9,15 @@ int main(void) {
         fprintf(stderr, "Fallo en el parseo\n");
         return 1;
     }
+
+    // Recorrer árbol y ejecutar el método polimórfico
+    void NodoBase_recorrer(NodoBase* nodo) {
+        nodo->ejecutar(nodo);
+        for (int i = 0; i < nodo->numHijos; i++) {
+            NodoBase_recorrer(nodo->hijos[i]);
+        }
+    }
+
     return 0;
 }
 
