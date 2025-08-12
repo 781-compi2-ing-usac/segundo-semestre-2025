@@ -1,16 +1,20 @@
-// ------------------ Nodo Tipo B ------------------
-typedef struct {
-    NodoBase base;
-    // Atributos específicos
-    char mensaje[100];
-} NodoTipoB;
+#include "primitivos.h"
+#include <stdlib.h>
 
-void NodoTipoB_ejecutar(NodoBase* self) {
-    NodoTipoB* nodo = (NodoTipoB*)self;
-    printf("Ejecutando NodoTipoB: %s, mensaje='%s'\n", nodo->base.nombre, nodo->mensaje);
+NodoPrimitivo* nuevoNodoPrimitivo(char* v, char tipo) {
+    //reservar el espacio en memoria y obtener el puntero a este
+    NodoPrimitivo* n = malloc(sizeof(NodoPrimitivo));
+    if (!n) return NULL;
+    //asignar valores
+    n->base.ejecutar = ejecutarPrimitivo;
+    n->base.hijos = NULL;
+    n->base.numHijos = 0;
+    n->valor = v;
+    n->tipo = tipo;
+    return n;
 }
 
-void NodoTipoB_init(NodoTipoB* nodo, const char* nombre, const char* mensaje) {
-    NodoBase_init(&nodo->base, nombre, NodoTipoB_ejecutar);
-    snprintf(nodo->mensaje, sizeof(nodo->mensaje), "%s", mensaje);
+void ejecutarPrimitivo(NodoBase* self) {
+    NodoPrimitivo* n = (NodoPrimitivo*)self;
+    //return n->valor;
 }

@@ -1,51 +1,40 @@
 #include <stdio.h>
+#include "./src/ast/AbstractTerminal.h"
 
 /* Declaraciones generadas por Bison/Flex */
 int yyparse(void);
+extern FILE* yyin;
 
-int main(void) {
-    printf("Calculadora simple (Ctrl+D para salir)\n> ");
-    if (yyparse() != 0) {
-        fprintf(stderr, "Fallo en el parseo\n");
-        return 1;
+NodoBase* ast_root = NULL;
+
+int main(int argc, char** argv) {
+    //printf("Calculadora simple (Ctrl+D para salir)\n> ");
+    if (argc > 1) {
+        yyin = fopen(argv[1], "r");
+        if (!yyin) { perror("fopen"); return 1; }
     }
 
-    // Recorrer árbol y ejecutar el método polimórfico
-    void NodoBase_recorrer(NodoBase* nodo) {
-        nodo->ejecutar(nodo);
-        for (int i = 0; i < nodo->numHijos; i++) {
-            NodoBase_recorrer(nodo->hijos[i]);
+    if (yyparse() == 0) {
+        if (ast_root) {
+            //ast_root->ejecutar(ast_root);
+            //printf("Program result (last statement): %f\n", result);
+            liberarAST(ast_root);
+            ast_root = NULL;
+        } else {
+            printf("No input parsed.\n");
         }
+    } else {
+        fprintf(stderr, "Parsing failed.\n");
     }
+
+    if (yyin && yyin != stdin) fclose(yyin);
 
     return 0;
 }
 
-/*
-int main() {
-    NodoTipoA raiz;
-    NodoTipoA_init(&raiz, "RaizA", 100);
-
-    NodoTipoB hijo1;
-    NodoTipoB_init(&hijo1, "HijoB1", "Hola mundo");
-
-    NodoTipoA hijo2;
-    NodoTipoA_init(&hijo2, "HijoA2", 200);
-
-    NodoTipoB nieto1;
-    NodoTipoB_init(&nieto1, "NietoB1", "Soy nieto");
-
-    // Construir el árbol
-    NodoBase_addHijo((NodoBase*)&raiz, (NodoBase*)&hijo1);
-    NodoBase_addHijo((NodoBase*)&raiz, (NodoBase*)&hijo2);
-    NodoBase_addHijo((NodoBase*)&hijo2, (NodoBase*)&nieto1);
-
-    // Recorrer y ejecutar polimórficamente
-    NodoBase_recorrer((NodoBase*)&raiz);
-
-    // Liberar memoria de hijos (simplificado)
-    free(raiz.base.hijos);
-    free(hijo2.base.hijos);
-
-    return 0;
-}*/
+/* void NodoBase_recorrer(NodoBase* nodo) {
+    nodo->ejecutar(nodo);
+    for (int i = 0; i < nodo->numHijos; i++) {
+        NodoBase_recorrer(nodo->hijos[i]);
+    }
+} */

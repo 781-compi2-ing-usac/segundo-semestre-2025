@@ -1,8 +1,3 @@
-/*
- * pascal.lex: An example PASCAL scanner
- *
- */
-
 /*{NUMBER} {
     yylval.num = atoi(yytext);
     return NUMBER;
@@ -12,7 +7,7 @@
 #include <stdio.h>
 #include "parser.tab.h"
 
-void yyerror(char *message);
+//void yyerror(char *message);
 
 /* Contador de columna */
 int yycolumn = 1;
@@ -35,7 +30,7 @@ int yycolumn = 1;
 %option noyywrap yylineno
 
 /* Condiciones de arranque */
-% COMMENT1 COMMENT2
+%x COMMENT1 COMMENT2
 
 /* definiciones */
 white_space       [ \t]*
@@ -54,43 +49,39 @@ bad_string        \"([^"\n]|\"\")+
 
 %%
 
-"/*"                  yybegin(COMMENT1);
+"/*"                  BEGIN(COMMENT1);
 <COMMENT1>[^}\n]+
 <COMMENT1>\n            ++yylineno;
 <COMMENT1><<EOF>>    yyerror("EOF in comment");
-<COMMENT1>"*/"        yybegin(INITIAL);
+<COMMENT1>"*/"        BEGIN(INITIAL);
 
-"(*"                 yybegin(COMMENT2);
+"(*"                 BEGIN(COMMENT2);
 <COMMENT2>[^)*\n]+
 <COMMENT2>\n            ++yylineno;
 <COMMENT2><<EOF>>    yyerror("EOF in comment");
-<COMMENT2>"*)"       yybegin(INITIAL);
+<COMMENT2>"*)"       BEGIN(INITIAL);
 <COMMENT2>[*)]
 
- /* note that FILE and BEGIN are already 
-  * defined in FLEX or C so they can't  
-  * be used. This can be overcome in                               
-  * a cleaner way by defining all the
-  * tokens to start with TOK_ or some
-  * other prefix.
-  */
+if                  return(TOKEN_IF);
+else                return(TOKEN_ELSE);
+print               return(TOKEN_PRINT);
+int                 return(TOKEN_DINT);
+float               return(TOKEN_DFLOAT);
+String              return(TOKEN_DSTRING);
 
-and                  return(AND);
-array                return(ARRAY);
+">"                  return(TOKEN_MAYOR);
+"<"                  return(TOKEN_MENOR);
+"!"                  return(TOKEN_NEGACION);
+"="                  return(TOKEN_IGUAL);
 
-">"                  return(MAYOR);
-"<"                  return(MENOR);
-"!"                  return(NEGACION);
-"="                  return(IGUAL);
-
-{unsigned_integer}   return(UNSIGNED_INTEGER);
-{real}               return(REAL);
-{string}             return{STRING};
+{unsigned_integer}   return(TOKEN_UNSIGNED_INTEGER);
+{real}               return(TOKEN_REAL);
+{string}             return(TOKEN_STRING);
 {bad_string}         yyerror("Unterminated string");
 
-{identifier}         return(IDENTIFIER);
+{identifier}         return(TOKEN_IDENTIFIER);
 
-[*/+\-,^()\[\]]      return(yytext[0]);
+[*/+\-,^()\[\]\{\}\;]      return(yytext[0]);
 
 {white_space}        /* do nothing */
 \n                   yylineno += 1;
@@ -98,9 +89,9 @@ array                return(ARRAY);
 
 %%
 
-void yyerror(char *message)
+/* void yyerror(char *message)
 {
    fprintf(stderr,"Error: \"%s\" in line %d. Token = %s\n",
            message,yylineno,yytext);
    exit(1);
-}
+} */

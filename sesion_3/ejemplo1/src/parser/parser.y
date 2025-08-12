@@ -1,14 +1,25 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-#include "../cst/expresiones/primitivos.c"
-#include "../cst/sentencias/print.c"
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include "ast/AbstractTerminal.h"
 
-/* Prototipo del scanner */
-extern int yylex(void);
-/* yyerror con firma estándar */
-void yyerror(const char *s);
+    /* Prototipo del scanner */
+    extern int yylex(void);
+    extern NodoBase* ast_root;
+    /* yyerror con firma estándar */
+    void yyerror(const char *s);
 %}
+
+/* Esto va al parser.tab.h */
+%code requires {
+
+#include "./../ast/instrucciones/intrucciones.h"
+#include "./../ast/expresiones/expresiones.h"
+#include "./../ast/expresiones/primitivos.h"
+#include "./../ast/expresiones/listaExpresiones.h"
+#include "./../ast/instrucciones/instruccion/print.h"
+
+}
 
 /* Seguimiento de ubicaciones */
 %locations
@@ -17,23 +28,19 @@ void yyerror(const char *s);
 
 /* Unión de tipos semánticos */
 %union {
-  int num;
-  NodoTipoA primitivo;
   char* string;
-  double double;
+  NodoBase* nodo;
 }
 
 /* Tokens tipados */
-%token <string> AND ARRAY MAYOR MENOR NEGACION IGUAL STRING IDENTIFIER
-%token <num> UNSIGNED_INTEGER
-%token <double> REAL
+%token <string> TOKEN_IF TOKEN_ELSE TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT 
+TOKEN_DSTRING TOKEN_MAYOR TOKEN_MENOR TOKEN_NEGACION TOKEN_IGUAL TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_IDENTIFIER
 
 /* Tipo de los no-terminales que llevan valor */
-%type  <primitivo> expr 
-%type  <primitivo> expr 
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var asignacion_var primitivo
 
 // precedencia menor a mayor
-%left NUMERO
+//%left NUMERO
 %left '+' '-' //menos -
 %left '*' '/' //más
 %left NEG
@@ -42,86 +49,67 @@ void yyerror(const char *s);
 
 %start s;
 
-s: lSentencia  { $$ = $1; };
-    
-
-lSentencia: lSentencia sentencia z {
-                                    $$ = $1; 
-                                    $$->AddSentencia($2);
-                                    }
-    | sentencia z { 
-        $$ = new NT_LSentencias();
-        $$->AddSentencia($1);
-    }
+s: lSentencia  { ast_root = $1; }
+    | error '\n'  { yyerrok; }
     ;
-    /*sentencias*/
-sentencia: declaracion_var {$$ = $1;}
-    | asignacion_var {$$ = $1; }
-    | imprimir {$$ = $1; }
+//                                               Padre, hijo;
+lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1; }
+    | sentencia ';' {
+                        NodoBloque* b = nuevoNodoBloque();
+                        agregarHijo((NodoBase*)b, $1);
+                        $$ = (NodoBase*) b;
+                    }
+    ;
+
+sentencia: imprimir {$$ = $1; }
     | bloque {$$ = $1;}
+    //| asignacion_var {$$ = $1; }
+    //| declaracion_var {$$ = $1;}
     ;
 
-
-lista_Expr: lista_Expr ','  expr {   $1->AddNodo($3); 
-                                    $$ = $1;
-                                }
-    | expr { $$ = new NT_ListaExpr($1);}
+lista_Expr: lista_Expr ','  expr { agregarHijo($1, $3); $$ = $1; }
+    | expr { 
+                NodoListaExpresiones* b = nuevoNodoListaExpresiones();
+                agregarHijo((NodoBase*)b, $1);
+                $$ = (NodoBase*) b;
+            }
     ;
 
-imprimir: IMPR '(' lista_Expr ')' { $$ = new NT_Imprimir($3); }
+imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ = (NodoBase*) nuevoNodoImprimir($3); }
     ;
 
-bloque: '{' lSentencia '}' { $$ = new NT_Bloque($2); }
-
-z: ';' {  }
-    | %empty { }
-    ;
+bloque: '{' lSentencia '}' { NodoBloque* b = nuevoNodoBloque();
+                        agregarHijo((NodoBase*)b, $2);
+                        $$ = (NodoBase*) b; }
 
 
-declaracion_var: DIM ID AS tipo {   T_ID* id = new T_ID(QString::fromStdString($2));
+/* declaracion_var: primitivo {   T_ID* id = new T_ID(QString::fromStdString($2));
                                     $$ = new NT_DeclVar($4, id); }
-    | DIM ID AS tipo '=' expr { T_ID* id = new T_ID(QString::fromStdString($2));
+    | primitivo '=' expr { T_ID* id = new T_ID(QString::fromStdString($2));
                                 $$ = new NT_DeclVar($4, id,$6 );  }
     ;
 
-asignacion_var: ID '=' expr {   T_ID* id_avar = new T_ID(QString::fromStdString($1));
-                                $$ = new NT_AsigVar(id_avar, $3);
-                                }
-    ;
+asignacion_var: TOKEN_IDENTIFIER '=' expr   {   
+                                                T_ID* id_avar = new T_ID(QString::fromStdString($1));
+                                                $$ = new NT_AsigVar(id_avar, $3);
+                                            }
+    ; */
 
 
     
-expr: expr '+' expr   { $$ = new NT_Suma($1, $3);  }
-    | expr '-' expr { $$ = $1;  
-                        /*pendiente de implementar*/}
+expr: expr '+' expr   { $$ = (NodoBase*) nuevoNodoExpresion('+', $1, $3);  }
+    | expr '-' expr { $$ = (NodoBase*) nuevoNodoExpresion('-', $1, $3); }
     | '(' expr ')' { $$ = $2; }
-    | MENOS expr %prec NEG  { $$ = new NT_Negacion($2);  }
-    | NUMERO { $$ = new T_Numero( QString::fromStdString($1)); } 
-    | ID { $$ = new NT_ID( QString::fromStdString($1)); }
-    | STRING { $$ = NodoTipoA_init($1);  }
+    | '-' expr %prec NEG  { $$ = (NodoBase*) nuevoNodoExpresion('U', $2, NULL);  }
+    | primitivo { $$ = $1; } 
+    //| TOKEN_IDENTIFIER { $$ = (NodoBase*) nuevoNodoExpresion('I', $1, $3); }
+    //| TOKEN_STRING { $$ = NodoTipoA_init($1);  }
     ;
 
-tipo:  INT { $$ = new NT_Tipo( QString::fromStdString($1)); }
-    | STR { $$ = new NT_Tipo( QString::fromStdString($1)); }
-    | FLO { $$ = new NT_Tipo( QString::fromStdString($1)); }
+primitivo: TOKEN_DINT { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'I'); }
+    | TOKEN_DSTRING { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'S'); }
+    | TOKEN_DFLOAT { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'F'); }
     ;
-    
-/* input:
-  | input line
-  ;
-
-line:
-    '\n'
-  | expr '\n'   { printf("= %d\n", $1); }
-  | error '\n'  { yyerrok; }
-  ;
-
-expr:
-    expr '+' expr   { $$ = $1 + $3; }
-  | expr '*' expr   { $$ = $1 * $3; }
-  | '(' expr ')'    { $$ = $2; }
-  | NUMBER          { $$ = $1; }
-  ; */
 %%
 
 /* definición de yyerror, usa el yylloc global para ubicación */

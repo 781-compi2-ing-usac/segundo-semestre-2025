@@ -21,3 +21,13 @@ Si deseas contribuir al repositorio puedes hacer uso de GitHub Flow y pronto se 
 A continuación puedes encontrar la documentación para las herramientas u otro tipo, en español Flex-2.5 y Bison-1.27 descargadas de este enlace http://webdiis.unizar.es/asignaturas/LGA/.
 
 Para las ultimas versiones (las de este repo) la de Bison-3.8.1 https://www.gnu.org/software/bison/manual/bison.html. La de flex ultima versión https://github.com/westes/flex/blob/master/doc/flex.texi, el formato de archivo en linux se puede convertir en PDF.
+
+## Instalación de herramientas
+
+Ubuntu:
+sudo apt-get update
+sudo apt-get install flex
+sudo apt-get install bison
+
+Fedora:
+dnf install flex bison gcc
