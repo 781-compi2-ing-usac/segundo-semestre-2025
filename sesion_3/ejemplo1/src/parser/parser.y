@@ -12,13 +12,11 @@
 
 /* Esto va al parser.tab.h */
 %code requires {
-
-#include "./../ast/instrucciones/intrucciones.h"
-#include "./../ast/expresiones/expresiones.h"
-#include "./../ast/expresiones/primitivos.h"
-#include "./../ast/expresiones/listaExpresiones.h"
-#include "./../ast/instrucciones/instruccion/print.h"
-
+    #include "ast/instrucciones/instrucciones.h"
+    #include "ast/expresiones/expresiones.h"
+    #include "ast/expresiones/primitivos.h"
+    #include "ast/expresiones/listaExpresiones.h"
+    #include "ast/instrucciones/instruccion/print.h"
 }
 
 /* Seguimiento de ubicaciones */
