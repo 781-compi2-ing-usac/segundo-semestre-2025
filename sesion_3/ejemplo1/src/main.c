@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
 
     if (yyparse() == 0) {
         if (ast_root) {
+            printf("Validado.\n");
             //ast_root->ejecutar(ast_root);
             //printf("Program result (last statement): %f\n", result);
             liberarAST(ast_root);

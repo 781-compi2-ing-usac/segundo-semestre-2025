@@ -104,9 +104,9 @@ expr: expr '+' expr   { $$ = (NodoBase*) nuevoNodoExpresion('+', $1, $3);  }
     //| TOKEN_STRING { $$ = NodoTipoA_init($1);  }
     ;
 
-primitivo: TOKEN_DINT { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'I'); }
-    | TOKEN_DSTRING { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'S'); }
-    | TOKEN_DFLOAT { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'F'); }
+primitivo: TOKEN_UNSIGNED_INTEGER { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'I'); }
+    | TOKEN_STRING { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'S'); }
+    | TOKEN_REAL { $$ = (NodoBase*) nuevoNodoPrimitivo($1, 'F'); }
     ;
 %%
 
