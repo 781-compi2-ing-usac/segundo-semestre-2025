@@ -18,4 +18,7 @@ NodoImprimir* nuevoNodoImprimir(NodoBase* listaExpresiones) {
 }
 
 void ejecutarImprimir(NodoBase* self) {
+    // interpretar la lista de expresiones
+    // recorremos  cada expresion y lo que nos devuelva imprimimos el valor
+    print("imprimiendo")
 }
