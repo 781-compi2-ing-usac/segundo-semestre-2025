@@ -17,7 +17,7 @@ typedef void (*Graficar)(NodoBase* self);
 
 struct NodoBase {
     MetodoEjecutar ejecutar; // Método ejecutar puntero
-    Graficar graficar;
+    //Graficar graficar;
     NodoBase** hijos; // Array dinámico de hijos
     size_t numHijos;
 };

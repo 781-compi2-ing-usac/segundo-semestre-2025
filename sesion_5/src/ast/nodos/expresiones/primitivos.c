@@ -14,8 +14,8 @@ NodoPrimitivo* nuevoNodoPrimitivo(char* v, char tipo) {
     return n;
 }
 
-//Resultado* ejecutarPrimitivo(NodoBase* self) {
-void ejecutarPrimitivo(NodoBase* self) {
+//Resultado* ejecutarPrimitivo(AbstractExpresion* self) {
+void ejecutarPrimitivo(AbstractExpresion* self) {
     NodoPrimitivo* n = (NodoPrimitivo*)self;
     //return n->valor;
 }

@@ -2,7 +2,7 @@
 #include "expresiones.h"
 #include <stdlib.h>
 
-NodoExpresion* nuevoNodoExpresion(char op, NodoBase* izquierda, NodoBase* derecha) {
+NodoExpresion* nuevoNodoExpresion(char op, AbstractExpresion* izquierda, AbstractExpresion* derecha) {
     // reservar el espacio en memoria y obtener el puntero a este
     NodoExpresion* n = malloc(sizeof(NodoExpresion));
     if (!n) return NULL;
@@ -14,13 +14,13 @@ NodoExpresion* nuevoNodoExpresion(char op, NodoBase* izquierda, NodoBase* derech
     n->op = op;
 
     //guardar los punteros en lo hijos de este arbol a los lados de la expresion
-    if (izquierda) agregarHijo((NodoBase*)n, izquierda);
-    if (derecha) agregarHijo((NodoBase*)n, derecha);
+    if (izquierda) agregarHijo((AbstractExpresion*)n, izquierda);
+    if (derecha) agregarHijo((AbstractExpresion*)n, derecha);
     return n;
 }
 
-//Resultado* ejecutarExpresiones(NodoBase* self) {
-void ejecutarExpresiones(NodoBase* self) {
+//Resultado* ejecutarExpresiones(AbstractExpresion* self) {
+void ejecutarExpresiones(AbstractExpresion* self) {
     //Resultado1* self->hijos[0]->ejecutar(self->hijos[0]);
     self->hijos[1]->ejecutar(self->hijos[1]);
 
