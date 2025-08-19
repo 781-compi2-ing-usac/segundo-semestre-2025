@@ -1,0 +1,9 @@
+print(1+1, 6-3, 55);
+print(2);
+
+(*
+asdfkasfñlkajdf //asdfaf
+*)
+
+//falso
+print(2);

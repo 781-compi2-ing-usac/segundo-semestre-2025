@@ -8,12 +8,10 @@
     AbstractExpresion* nombreExpresionNodo a construir (datos iniciales)
 */
 
-AbstractExpresion* nuevoNodoBloque(void);
-AbstractExpresion* nuevoNodoExpresion(char op, AbstractExpresion* izquierda, AbstractExpresion* derecha);
-AbstractExpresion* nuevoNodoImprimir(AbstractExpresion* listaExpresiones);
-AbstractExpresion* nuevoNodoListaExpresiones();
-AbstractExpresion* nuevoNodoPrimitivo(char* valor, char tipo);
-AbstractExpresion* nuevoNodoBloque(void);
-
+AbstractExpresion* nuevoInstruccionesExpresion(void);
+AbstractExpresion* nuevoPrintExpresion(AbstractExpresion* listaExpresiones);
+AbstractExpresion* nuevoPrimitivoExpresion(char* valor, char tipo);//, int lengthValor);
+AbstractExpresion* nuevoListaExpresiones(void);
+AbstractExpresion* nuevoExpresionLenguaje(char op, AbstractExpresion* izquierda, AbstractExpresion* derecha);
 
 #endif

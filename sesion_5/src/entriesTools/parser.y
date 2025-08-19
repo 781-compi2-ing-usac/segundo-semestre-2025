@@ -13,6 +13,7 @@
 /* Esto va al parser.tab.h */
 %code requires {
     #include "ast/nodos/builders.h"
+    #include "ast/nodos/instrucciones/instrucciones.h"
 }
 
 /* Seguimiento de ubicaciones */
@@ -47,11 +48,12 @@ s: lSentencia  { ast_root = $1; }
     //| error '\n'  { yyerrok; }
     ;
 //                                               Padre, hijo;
-lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1; }
+lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1; InstruccionesExpresion* bloque = (InstruccionesExpresion*) $1;
+            printf("en parser %ld \n", bloque->base.numHijos); }
     | sentencia ';' {
-                        NodoBloque* b = nuevoNodoBloque();
-                        agregarHijo((AbstractExpresion*)b, $1);
-                        $$ = (AbstractExpresion*) b;
+                        AbstractExpresion* b = nuevoInstruccionesExpresion();
+                        agregarHijo(b, $1);
+                        $$ =  b;
                     }
     ;
 
@@ -63,18 +65,18 @@ sentencia: imprimir {$$ = $1; }
 
 lista_Expr: lista_Expr ','  expr { agregarHijo($1, $3); $$ = $1; }
     | expr { 
-                NodoListaExpresiones* b = nuevoNodoListaExpresiones();
-                agregarHijo((AbstractExpresion*)b, $1);
-                $$ = (AbstractExpresion*) b;
+                AbstractExpresion* b = nuevoListaExpresiones();
+                agregarHijo(b, $1);
+                $$ =  b;
             }
     ;
 
-imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ = (AbstractExpresion*) nuevoNodoImprimir($3); }
+imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ =  nuevoPrintExpresion($3); }
     ;
 
-bloque: '{' lSentencia '}' { NodoBloque* b = nuevoNodoBloque();
-                        agregarHijo((AbstractExpresion*)b, $2);
-                        $$ = (AbstractExpresion*) b; }
+bloque: '{' lSentencia '}' { AbstractExpresion* b = nuevoInstruccionesExpresion();
+                        agregarHijo(b, $2);
+                        $$ =  b; }
 
 
 /* declaracion_var: primitivo {   T_ID* id = new T_ID(QString::fromStdString($2));
@@ -91,25 +93,25 @@ asignacion_var: TOKEN_IDENTIFIER '=' expr   {
 
 
     
-expr: expr '+' expr   { $$ = (AbstractExpresion*) nuevoNodoExpresion('+', $1, $3);  }
-    | expr '-' expr { $$ = (AbstractExpresion*) nuevoNodoExpresion('-', $1, $3); }
+expr: expr '+' expr   { $$ =  nuevoExpresionLenguaje('+', $1, $3);  }
+    | expr '-' expr { $$ =  nuevoExpresionLenguaje('-', $1, $3); }
     | '(' expr ')' { $$ = $2; }
-    | '-' expr %prec NEG  { $$ = (AbstractExpresion*) nuevoNodoExpresion('U', $2, NULL);  }
+    | '-' expr %prec NEG  { $$ =  nuevoExpresionLenguaje('U', $2, NULL);  }
     | primitivo { $$ = $1; } 
-    //| TOKEN_IDENTIFIER { $$ = (AbstractExpresion*) nuevoNodoExpresion('I', $1, $3); }
+    //| TOKEN_IDENTIFIER { $$ =  nuevoExpresionLenguaje('I', $1, $3); }
     //| TOKEN_STRING { $$ = NodoTipoA_init($1);  }
     ;
 
-primitivo: TOKEN_UNSIGNED_INTEGER { $$ = (AbstractExpresion*) nuevoNodoPrimitivo($1, 'I'); }
-    | TOKEN_STRING { $$ = (AbstractExpresion*) nuevoNodoPrimitivo($1, 'S'); }
-    | TOKEN_REAL { $$ = (AbstractExpresion*) nuevoNodoPrimitivo($1, 'F'); }
+primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, 'I'); }
+    | TOKEN_STRING { $$ =  nuevoPrimitivoExpresion($1, 'S'); }
+    | TOKEN_REAL { $$ =  nuevoPrimitivoExpresion($1, 'F'); }
     ;
 %%
 
 /* definición de yyerror, usa el yylloc global para ubicación */
 void yyerror(const char *s) {
     fprintf(stderr,
-            "%s en %d:%d\n",
+            "Illegal input %s en %d:%d\n",
             s,
             yylloc.first_line,
             yylloc.first_column);

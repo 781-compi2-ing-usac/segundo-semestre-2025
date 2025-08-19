@@ -1,29 +1,30 @@
 #include "ast/AbstractExpresion.h"
 #include "ast/nodos/builders.h"
+#include "context/context.h"
+#include "context/result.h"
+
 #include <stdlib.h>
+#include <stdio.h>
 
 /* bloque (lista de instrucciones) */
 typedef struct {
     AbstractExpresion base;
 } InstruccionesExpresion;
 
-AbstractExpresion* nuevoInstruccionesExpresion() {
-    buildAbstractExpresion(ejecutarBloque);
-    // asignar memoria
-    InstruccionesExpresion* n = malloc(sizeof(InstruccionesExpresion));
-    if (!n) return NULL;
-
-    //asignar valores
-    n->base.ejecutar = ejecutarBloque;
-    n->base.hijos = NULL;
-    n->base.numHijos = 0;
-    return n;
+Result interpretInstrucciones(AbstractExpresion* self, Context* context) {
+    printf("Instrucciones");
+    
+    for (size_t i = 0; i < self->numHijos; ++i) {
+        self->hijos[i]->interpret(self->hijos[i], context);
+    }
+    return nuevoValorResultadoVacio();
 }
 
-void ejecutarBloque(AbstractExpresion* self) {
-    /* float last = 0.0f;
-    for (size_t i = 0; i < self->numHijos; ++i) {
-        last = self->hijos[i]->ejecutar(self->hijos[i]);
-    }
-    return last; */
+AbstractExpresion* nuevoInstruccionesExpresion() {
+    // asignar memoria
+    InstruccionesExpresion* nodo = malloc(sizeof(InstruccionesExpresion));
+    if (!nodo) return NULL;
+    buildAbstractExpresion(&nodo->base, interpretInstrucciones);
+    printf("creando nodo %ld \n", nodo->base.numHijos);
+    return (AbstractExpresion*) nodo;
 }

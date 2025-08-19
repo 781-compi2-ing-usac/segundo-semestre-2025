@@ -30,7 +30,7 @@ int yycolumn = 1;
 %option noyywrap yylineno
 
 /* Condiciones de arranque */
-%x COMMENT1 COMMENT2
+%x COMMENT1 COMMENT2 COMMENTLINEA
 
 /* definiciones */
 white_space       [ \t]*
@@ -49,15 +49,14 @@ bad_string        \"([^"\n]|\"\")+
 
 %%
 
-"/*"                  BEGIN(COMMENT1);
-<COMMENT1>[^}\n]+
-<COMMENT1>\n            ++yylineno;
-<COMMENT1><<EOF>>    yyerror("EOF in comment");
-<COMMENT1>"*/"        BEGIN(INITIAL);
+"//"                     BEGIN(COMMENTLINEA);
+<COMMENTLINEA>[^\n\r]+ 
+<COMMENTLINEA><<EOF>>    yyerror("EOF in comment");
+<COMMENTLINEA>[\n\r]     BEGIN(INITIAL);
 
 "(*"                 BEGIN(COMMENT2);
-<COMMENT2>[^)*\n]+
-<COMMENT2>\n            ++yylineno;
+<COMMENT2>[^)*\n\r]+
+<COMMENT2>[\n\r]           ++yylineno;
 <COMMENT2><<EOF>>    yyerror("EOF in comment");
 <COMMENT2>"*)"       BEGIN(INITIAL);
 <COMMENT2>[*)]
@@ -84,7 +83,7 @@ String              return(TOKEN_DSTRING);
 [*/+\-,^()\[\]\{\}\;]      return(yytext[0]);
 
 {white_space}        /* do nothing */
-\n                   yylineno += 1;
+[\n\r]               yylineno += 1;
 .                    yyerror("Illegal input");
 
 %%

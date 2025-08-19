@@ -1,5 +1,8 @@
-#ifndef AbstractExpresion
-#define AbstractExpresion
+#ifndef ABSTRACT_EXPRESION_H
+#define ABSTRACT_EXPRESION_H
+
+#include "context/result.h"
+#include "context/context.h"
 
 #include <stddef.h>
 
@@ -12,7 +15,7 @@ typedef struct AbstractExpresion AbstractExpresion;
  * Link: https://www.geeksforgeeks.org/c/how-to-create-typedef-for-function-pointer-in-c/
  * typedef return_type (*alias_name)(parameter_types and numbers....);
 */
-typedef void (*Interpret)(AbstractExpresion* self, Context* context);
+typedef Result (*Interpret)(AbstractExpresion* self, Context* context);
 typedef void (*Graficar)(AbstractExpresion* self);
 
 struct AbstractExpresion {

@@ -32,5 +32,8 @@ void liberarAST(AbstractExpresion* raiz) {
 }
 
 void buildAbstractExpresion(AbstractExpresion* base, Interpret interpretPuntero) {
-    
+    //asignar valores
+    base->interpret = interpretPuntero;
+    base->hijos = NULL;
+    base->numHijos = 0;
 }
