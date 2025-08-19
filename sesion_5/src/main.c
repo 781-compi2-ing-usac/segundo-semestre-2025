@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
             Context contextPadre = {};
             ast_root->interpret(ast_root, &contextPadre);
             printf("Validado.\n");
+            printf("Validado.\n");
             //printf("Program result (last statement): %f\n", result);
             //liberarAST(ast_root);
             //ast_root = NULL;
