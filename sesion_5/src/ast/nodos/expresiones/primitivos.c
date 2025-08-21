@@ -2,16 +2,11 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "primitivos.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct {
-    AbstractExpresion base;
-    char* valor;
-    char tipo;
-    int lengthValor;
-} PrimitivoExpresion;
 
 Result interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
     PrimitivoExpresion* nodo = (PrimitivoExpresion*) self;

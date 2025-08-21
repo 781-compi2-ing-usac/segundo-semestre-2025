@@ -30,7 +30,7 @@ int yycolumn = 1;
 %option noyywrap yylineno
 
 /* Condiciones de arranque */
-%x COMMENT1 COMMENT2 COMMENTLINEA
+%x COMMENT2 COMMENTLINEA
 
 /* definiciones */
 white_space       [ \t]*
@@ -48,7 +48,6 @@ string            \"([^"\n]|\"\")+\"
 bad_string        \"([^"\n]|\"\")+
 
 %%
-
 "//"                     BEGIN(COMMENTLINEA);
 <COMMENTLINEA>[^\n\r]+ 
 <COMMENTLINEA><<EOF>>    yyerror("EOF in comment");
@@ -87,10 +86,3 @@ String              return(TOKEN_DSTRING);
 .                    yyerror("Illegal input");
 
 %%
-
-/* void yyerror(char *message)
-{
-   fprintf(stderr,"Error: \"%s\" in line %d. Token = %s\n",
-           message,yylineno,yytext);
-   exit(1);
-} */

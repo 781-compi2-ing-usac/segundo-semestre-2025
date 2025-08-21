@@ -2,22 +2,24 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "instrucciones.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
-/* bloque (lista de instrucciones) */
-typedef struct {
-    AbstractExpresion base;
-} InstruccionesExpresion;
-
 Result interpretInstrucciones(AbstractExpresion* self, Context* context) {
-    printf("Instrucciones");
-    
+    printf("instrucci\n");
+    //InstruccionesExpresion* bloque = (InstruccionesExpresion*) self;
+    printf("1\n");
+    printf("2\n");
+    printf("%ld\n", self->numHijos);
+    printf("2\n");
+
     for (size_t i = 0; i < self->numHijos; ++i) {
+        printf("ff %ld\n", i);
         self->hijos[i]->interpret(self->hijos[i], context);
     }
-    return nuevoValorResultadoVacio();
+    return nuevoValorResultadoVacio(); 
 }
 
 AbstractExpresion* nuevoInstruccionesExpresion() {
@@ -25,6 +27,6 @@ AbstractExpresion* nuevoInstruccionesExpresion() {
     InstruccionesExpresion* nodo = malloc(sizeof(InstruccionesExpresion));
     if (!nodo) return NULL;
     buildAbstractExpresion(&nodo->base, interpretInstrucciones);
-    printf("creando nodo %ld \n", nodo->base.numHijos);
+    
     return (AbstractExpresion*) nodo;
 }

@@ -2,13 +2,11 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "print.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct {
-    AbstractExpresion base;
-} PrintExpresion;
 
 Result interpretPrintExpresion(AbstractExpresion* self, Context* context) {
     // interpretar la lista de expresiones
@@ -17,7 +15,7 @@ Result interpretPrintExpresion(AbstractExpresion* self, Context* context) {
     for (size_t i = 0; i < listaExpresiones->numHijos; ++i) {
         Result result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
         switch (result.tipo) {
-            case 'S'://string
+            case 'S': //string
                 //result.valor[result.lengthValor] = "\0"
                 printf("%s", (char*) result.valor);
                 break;
@@ -39,6 +37,5 @@ AbstractExpresion* nuevoPrintExpresion(AbstractExpresion* listaExpresiones) {
     buildAbstractExpresion(&nodo->base, interpretPrintExpresion);
 
     if (listaExpresiones) agregarHijo((AbstractExpresion*) nodo, listaExpresiones);
-    printf("creando nodo 2 %ld \n", nodo->base.numHijos);
     return (AbstractExpresion*) nodo;
 }

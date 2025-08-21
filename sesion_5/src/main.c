@@ -1,7 +1,9 @@
-#include <stdio.h>
 #include "ast/AbstractExpresion.h"
-#include "context/context.h"
 #include "ast/nodos/instrucciones/instrucciones.h"
+#include "context/context.h"
+
+#include <stdlib.h>
+#include <stdio.h>
 
 /* Declaraciones generadas por Bison/Flex */
 int yyparse(void);
@@ -15,16 +17,13 @@ int main(int argc, char** argv) {
         if (!yyin) { perror("fopen"); return 1; }
     }
 
-
     if (yyparse() == 0) {
         if (ast_root) {
             InstruccionesExpresion* bloque = (InstruccionesExpresion*) ast_root;
-            printf("Validado %ld", bloque->base.numHijos);
+            printf("sentencia final %ld \n", bloque->base.numHijos);
             Context contextPadre = {};
-            ast_root->interpret(ast_root, &contextPadre);
+            bloque->base.interpret(bloque, &contextPadre);
             printf("Validado.\n");
-            printf("Validado.\n");
-            //printf("Program result (last statement): %f\n", result);
             //liberarAST(ast_root);
             //ast_root = NULL;
         } else {
@@ -38,11 +37,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-
-/* void startRecorrido(AbstractExpresion* nodo) {
-    Context contextPadre = {};
-    nodo->interpret(nodo, &contextPadre);
-    for (int i = 0; i < nodo->numHijos; i++) {
-        AbstractExpresion_recorrer(nodo->hijos[i]);
-    }
-} */

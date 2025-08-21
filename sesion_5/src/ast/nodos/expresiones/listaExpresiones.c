@@ -2,12 +2,9 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "listaExpresiones.h"
 
 #include <stdlib.h>
-
-typedef struct {
-    AbstractExpresion base;
-} ListaExpresiones;
 
 Result interpretListaExpresiones(AbstractExpresion* self, Context* context) {
     return nuevoValorResultadoVacio();

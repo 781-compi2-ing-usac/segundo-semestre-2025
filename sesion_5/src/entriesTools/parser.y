@@ -13,7 +13,6 @@
 /* Esto va al parser.tab.h */
 %code requires {
     #include "ast/nodos/builders.h"
-    #include "ast/nodos/instrucciones/instrucciones.h"
 }
 
 /* Seguimiento de ubicaciones */
@@ -44,12 +43,11 @@ TOKEN_DSTRING TOKEN_MAYOR TOKEN_MENOR TOKEN_NEGACION TOKEN_IGUAL TOKEN_UNSIGNED_
 
 %start s;
 
-s: lSentencia  { ast_root = $1; }
+s: lSentencia  { ast_root = $1; $$ = $1; }
     //| error '\n'  { yyerrok; }
     ;
 //                                               Padre, hijo;
-lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1; InstruccionesExpresion* bloque = (InstruccionesExpresion*) $1;
-            printf("en parser %ld \n", bloque->base.numHijos); }
+lSentencia: lSentencia sentencia ';' { agregarHijo($1, $2); $$ = $1;}
     | sentencia ';' {
                         AbstractExpresion* b = nuevoInstruccionesExpresion();
                         agregarHijo(b, $1);

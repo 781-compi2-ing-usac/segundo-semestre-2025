@@ -2,14 +2,10 @@
 #include "ast/nodos/builders.h"
 #include "context/context.h"
 #include "context/result.h"
+#include "expresiones.h"
 
 #include <stdlib.h>
 #include <stdio.h>
-
-typedef struct {
-    AbstractExpresion base;
-    char op; /* '+', '-', '*', '/' */
-} ExpresionLenguaje;
 
 
 Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
@@ -27,11 +23,12 @@ Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
     switch (nodo->op) {
         case '+':
             if (resultado1.tipo == resultado2.tipo && resultado1.tipo == 'I') {
-                //return &nuevoResultado(Resultado1->valor + Resultado2->valor, 'F')
+                int valorFinal = *((int*) resultado1.valor) + *((int*) resultado2.valor);
+                Result resultadoFinal = nuevoValorResultado((void* ) &valorFinal, 'I');
+                return resultadoFinal;
             }
             fprintf(stderr, "Unknown operator %c\n", nodo->op);
             return nuevoValorResultadoVacio();
-        
         default:
             fprintf(stderr, "Unknown operator %c\n", nodo->op);
             return nuevoValorResultadoVacio();
