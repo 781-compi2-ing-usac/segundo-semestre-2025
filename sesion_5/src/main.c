@@ -19,11 +19,10 @@ int main(int argc, char** argv) {
 
     if (yyparse() == 0) {
         if (ast_root) {
-            InstruccionesExpresion* bloque = (InstruccionesExpresion*) ast_root;
-            printf("sentencia final %ld \n", bloque->base.numHijos);
+            printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
             Context contextPadre = {};
-            bloque->base.interpret(bloque, &contextPadre);
-            printf("Validado.\n");
+            ast_root->interpret(ast_root, &contextPadre);
+            printf("Fin, arhivo validado.\n");
             //liberarAST(ast_root);
             //ast_root = NULL;
         } else {

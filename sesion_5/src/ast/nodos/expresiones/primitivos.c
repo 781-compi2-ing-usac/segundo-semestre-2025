@@ -13,7 +13,7 @@ Result interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
     switch (nodo->tipo) {
         case 'I':
             int valor = atoi(nodo->valor);
-            return nuevoValorResultado((void*) &valor, nodo->tipo); //, nodo->lengthValor);
+            return nuevoValorResultado((void*) &valor, nodo->tipo);
     }
     return nuevoValorResultadoVacio();
 }

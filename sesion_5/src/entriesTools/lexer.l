@@ -72,9 +72,9 @@ String              return(TOKEN_DSTRING);
 "!"                  return(TOKEN_NEGACION);
 "="                  return(TOKEN_IGUAL);
 
-{unsigned_integer}   return(TOKEN_UNSIGNED_INTEGER);
-{real}               return(TOKEN_REAL);
-{string}             return(TOKEN_STRING);
+{unsigned_integer}   {yylval.string = yytext; return(TOKEN_UNSIGNED_INTEGER);}
+{real}               {yylval.string = yytext; return(TOKEN_REAL);}
+{string}             {yylval.string = yytext; return(TOKEN_STRING);}
 {bad_string}         yyerror("Unterminated string");
 
 {identifier}         return(TOKEN_IDENTIFIER);

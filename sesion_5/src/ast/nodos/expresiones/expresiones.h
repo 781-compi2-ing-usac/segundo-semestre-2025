@@ -7,9 +7,13 @@
 
 typedef struct {
     AbstractExpresion base;
-    char op; /* '+', '-', '*', '/' */
+    Result izquierda;
+    Result derecha;
 } ExpresionLenguaje;
 
-Result interpretExpresionLenguaje(AbstractExpresion*, Context*);
-
+AbstractExpresion* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha);
+bool validarTipos(Result resultado1, Result resultado2);
+void calcularResultadoIzquierdo(AbstractExpresion* self);
+void calcularResultadoDerecho(AbstractExpresion* self);
+void calcularResultados(AbstractExpresion* self);
 #endif

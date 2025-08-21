@@ -12,15 +12,15 @@ Result interpretPrintExpresion(AbstractExpresion* self, Context* context) {
     // interpretar la lista de expresiones
     // recorremos  cada expresion y lo que nos devuelva imprimimos el valor
     AbstractExpresion* listaExpresiones = self->hijos[0];
+    printf("en print\n");
     for (size_t i = 0; i < listaExpresiones->numHijos; ++i) {
         Result result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
         switch (result.tipo) {
             case 'S': //string
-                //result.valor[result.lengthValor] = "\0"
-                printf("%s", (char*) result.valor);
+                printf("%s\n", (char*) result.valor);
                 break;
             case 'I': //int
-                printf("%d", *(int*)result.valor);
+                printf("%d\n", *(int*)result.valor);
                 break;
             default:
                 printf("Codigo incorrecto\n");

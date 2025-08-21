@@ -90,14 +90,21 @@ asignacion_var: TOKEN_IDENTIFIER '=' expr   {
     ; */
 
 
-    
+//TODO: para mejorar la legibilidad en lugar de guardar la operacion por incumplir el principio de responsabilidad única y también el Principio de abierto/cerrado (SOLID)
+// la accion semantica fungirá como factoría abstracta y cada expresión tendra su método interpret para hacer la operación además de utilizar otros métodos "heredados".
+/* expr: expr '+' expr   { $$ =  nuevoExpresionLenguaje('+', $1, $3);  }
+    | expr '-' expr { $$ =  nuevoExpresionLenguaje('-', $1, $3); }
+    | '(' expr ')' { $$ = $2; }
+    | '-' expr %prec NEG  { $$ =  nuevoExpresionLenguaje('U', $2, NULL);  }
+    | primitivo { $$ = $1; }
+    //| TOKEN_IDENTIFIER { $$ =  nuevoExpresionLenguaje('I', $1, $3); }
+    ; */
+
 expr: expr '+' expr   { $$ =  nuevoExpresionLenguaje('+', $1, $3);  }
     | expr '-' expr { $$ =  nuevoExpresionLenguaje('-', $1, $3); }
     | '(' expr ')' { $$ = $2; }
     | '-' expr %prec NEG  { $$ =  nuevoExpresionLenguaje('U', $2, NULL);  }
-    | primitivo { $$ = $1; } 
-    //| TOKEN_IDENTIFIER { $$ =  nuevoExpresionLenguaje('I', $1, $3); }
-    //| TOKEN_STRING { $$ = NodoTipoA_init($1);  }
+    | primitivo { $$ = $1; }
     ;
 
 primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, 'I'); }
