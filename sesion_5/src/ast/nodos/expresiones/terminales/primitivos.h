@@ -7,9 +7,8 @@
 
 typedef struct {
     AbstractExpresion base;
+    TipoDato tipo;
     char* valor;
-    char tipo;
-    int lengthValor;
 } PrimitivoExpresion;
 
 Result interpretPrimitivoExpresion(AbstractExpresion*, Context*);

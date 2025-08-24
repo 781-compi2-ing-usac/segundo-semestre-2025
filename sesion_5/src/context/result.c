@@ -1,20 +1,36 @@
 #include "result.h"
 
-Result nuevoValorResultado(void* valor, char tipo){ //, int lengthValor) {
-    // ... dentro de la función, por ejemplo:
-    Result resultado;
+#include <stddef.h>
+#include <stdio.h>
 
-    // Inicializamos la variable temporal
+char* labelTipoDato[TIPO_COUNT] = {
+    [BOOLEAN] = "boolean",
+    [CHAR] = "char",
+    [INT] = "int",
+    [FLOAT] = "float",
+    [STRING] = "string",
+    [NULO] = "null"
+};
+
+Result nuevoValorResultado(void* valor, TipoDato tipo) {
+    Result resultado;
     resultado.tipo = tipo;
     resultado.valor = valor;
-
-    // Retornamos la variable
     return resultado;
 }
 
 Result nuevoValorResultadoVacio() {
-    // ... dentro de la función, por ejemplo:
     Result resultado;
-    // Retornamos la variable
+    resultado.tipo = NULO;
+    resultado.valor = NULL;
     return resultado;
+}
+
+//Sin usar
+TipoDato tipoResultante(Result valor1, Result valor2) {
+    if (valor1.tipo >= valor2.tipo) {
+        return valor1.tipo;
+    } else {
+        return valor2.tipo;
+    }
 }

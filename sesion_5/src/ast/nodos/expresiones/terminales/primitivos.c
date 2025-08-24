@@ -7,13 +7,28 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+/*
+    CREAR SIEMPRE NUEVO ESPACIO DE MEMORIA PARA ESTE ESCENARIO CON malloc
+    porque si usamos la direccion de memoria de esa variable, es posible que el garbage
+    collector la elimine por ser variable local
+*/
 Result interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
     PrimitivoExpresion* nodo = (PrimitivoExpresion*) self;
     switch (nodo->tipo) {
-        case 'I':
-            int valor = atoi(nodo->valor);
-            return nuevoValorResultado((void*) &valor, nodo->tipo);
+        case INT:
+            int* valorint = malloc(sizeof(int));
+            *valorint = atoi(nodo->valor);
+            free(nodo->valor);
+            return nuevoValorResultado((void*) valorint, nodo->tipo);
+        case FLOAT:
+            float* valorfloat = malloc(sizeof(float));
+            *valorfloat = atof(nodo->valor);
+            free(nodo->valor);
+            return nuevoValorResultado((void*) valorfloat, nodo->tipo);
+        case STRING:
+            return nuevoValorResultado((void*) nodo->valor, nodo->tipo);
+        default:
+            printf("Tipo de dato primitivo no implementado");
     }
     return nuevoValorResultadoVacio();
 }

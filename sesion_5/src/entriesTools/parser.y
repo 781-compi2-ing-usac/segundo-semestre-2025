@@ -13,6 +13,7 @@
 /* Esto va al parser.tab.h */
 %code requires {
     #include "ast/nodos/builders.h"
+    #include "context/result.h"
 }
 
 /* Seguimiento de ubicaciones */
@@ -100,16 +101,16 @@ asignacion_var: TOKEN_IDENTIFIER '=' expr   {
     //| TOKEN_IDENTIFIER { $$ =  nuevoExpresionLenguaje('I', $1, $3); }
     ; */
 
-expr: expr '+' expr   { $$ =  nuevoExpresionLenguaje('+', $1, $3);  }
-    | expr '-' expr { $$ =  nuevoExpresionLenguaje('-', $1, $3); }
+expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
+    | expr '-' expr { $$ =  nuevoRestaExpresion($1, $3); }
     | '(' expr ')' { $$ = $2; }
-    | '-' expr %prec NEG  { $$ =  nuevoExpresionLenguaje('U', $2, NULL);  }
+    | '-' expr %prec NEG  { $$ =  nuevoUnarioExpresion($2);  }
     | primitivo { $$ = $1; }
     ;
 
-primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, 'I'); }
-    | TOKEN_STRING { $$ =  nuevoPrimitivoExpresion($1, 'S'); }
-    | TOKEN_REAL { $$ =  nuevoPrimitivoExpresion($1, 'F'); }
+primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }
+    | TOKEN_STRING { $$ =  nuevoPrimitivoExpresion($1, STRING); }
+    | TOKEN_REAL { $$ =  nuevoPrimitivoExpresion($1, FLOAT); }
     ;
 %%
 

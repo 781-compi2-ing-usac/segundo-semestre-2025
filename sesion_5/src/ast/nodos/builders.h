@@ -19,6 +19,7 @@ AbstractExpresion* nuevoListaExpresiones(void);
 */
 AbstractExpresion* nuevoSumaExpresion(AbstractExpresion* izquierda, AbstractExpresion* derecha);
 AbstractExpresion* nuevoRestaExpresion(AbstractExpresion* izquierda, AbstractExpresion* derecha);
+AbstractExpresion* nuevoUnarioExpresion(AbstractExpresion* expresion);
 
 
 #endif

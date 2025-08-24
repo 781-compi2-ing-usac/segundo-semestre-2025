@@ -1,11 +1,9 @@
-/*{NUMBER} {
-    yylval.num = atoi(yytext);
-    return NUMBER;
-}*/
-
 %{
-#include <stdio.h>
 #include "parser.tab.h"
+
+#include <stdio.h>
+#include <string.h>
+
 
 //void yyerror(char *message);
 
@@ -72,9 +70,9 @@ String              return(TOKEN_DSTRING);
 "!"                  return(TOKEN_NEGACION);
 "="                  return(TOKEN_IGUAL);
 
-{unsigned_integer}   {yylval.string = yytext; return(TOKEN_UNSIGNED_INTEGER);}
-{real}               {yylval.string = yytext; return(TOKEN_REAL);}
-{string}             {yylval.string = yytext; return(TOKEN_STRING);}
+{unsigned_integer}   {yylval.string = strdup(yytext); return(TOKEN_UNSIGNED_INTEGER);}
+{real}               {yylval.string = strdup(yytext); return(TOKEN_REAL);}
+{string}             {yylval.string = malloc(yyleng); strncpy(yylval.string, &yytext[1], yyleng - 2); return(TOKEN_STRING);}
 {bad_string}         yyerror("Unterminated string");
 
 {identifier}         return(TOKEN_IDENTIFIER);

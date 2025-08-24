@@ -5,15 +5,24 @@
 #include "context/context.h"
 #include "context/result.h"
 
-typedef struct {
+typedef struct ExpresionLenguaje ExpresionLenguaje;
+typedef Result (*Operacion)(ExpresionLenguaje*);
+
+struct ExpresionLenguaje{
     AbstractExpresion base;
     Result izquierda;
     Result derecha;
-} ExpresionLenguaje;
+    Operacion (*tablaOperaciones)[TIPO_COUNT][TIPO_COUNT];
+};
 
-AbstractExpresion* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha);
-bool validarTipos(Result resultado1, Result resultado2);
-void calcularResultadoIzquierdo(AbstractExpresion* self);
-void calcularResultadoDerecho(AbstractExpresion* self);
-void calcularResultados(AbstractExpresion* self);
+
+//interpret basico de expresiones
+Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context);
+Result interpretUnarioLenguaje(AbstractExpresion* self, Context* context);
+//constructor
+ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha);
+
+void calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context);
+void calcularResultadoDerecho(ExpresionLenguaje* self, Context* context);
+void calcularResultados(ExpresionLenguaje* self, Context* context);
 #endif

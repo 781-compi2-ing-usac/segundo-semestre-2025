@@ -5,18 +5,43 @@
 #include "aritmeticas.h"
 #include "ast/nodos/expresiones/expresiones.h"
 
-Result interpretSumaLenguaje(AbstractExpresion* self, Context* context) {
-    ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
-    calcularResultados(nodo);
+#include <stdlib.h>
+#include <stdio.h>
 
-    
-
-
-    int valorFinal = *((int*) resultado1->valor) + *((int*) resultado2.valor);
-    Result resultadoFinal = nuevoValorResultado((void* ) &valorFinal, 'I');
-    return resultadoFinal;
+Result sumarIntInt(ExpresionLenguaje* self) {
+    int* res = malloc(sizeof(int));
+    *res =  *((int*)self->izquierda.valor) + *((int*)self->derecha.valor);
+    return nuevoValorResultado(res, INT);
 }
 
+Result sumarFloatFloat(ExpresionLenguaje* self) {
+    float* res = malloc(sizeof(float));
+    *res = *((float*)self->izquierda.valor) + *((float*)self->derecha.valor);
+    return nuevoValorResultado(res, FLOAT);
+}
+
+Result sumarIntFloat(ExpresionLenguaje* self) {
+    float* res = malloc(sizeof(float));
+    *res = *((int*)self->izquierda.valor) + *((float*)self->derecha.valor);
+    return nuevoValorResultado(res, FLOAT);
+}
+
+Result sumarFloatInt(ExpresionLenguaje* self) {
+    float* res = malloc(sizeof(float));
+    *res = *((float*)self->izquierda.valor) + *((int*)self->derecha.valor);
+    return nuevoValorResultado(res, FLOAT);
+}
+
+Operacion tablaOperacionesSuma[TIPO_COUNT][TIPO_COUNT] = {
+    [INT][INT] = sumarIntInt,
+    [FLOAT][FLOAT] = sumarFloatFloat,
+    [INT][FLOAT] = sumarIntFloat,
+    [FLOAT][INT] = sumarFloatInt,
+};
+
+//builders.h
 AbstractExpresion* nuevoSumaExpresion(AbstractExpresion* izquierda, AbstractExpresion* derecha) {
-    return nuevoExpresionLenguaje(interpretSumaLenguaje, izquierda, derecha);
+    ExpresionLenguaje* sumaExpresion = nuevoExpresionLenguaje(interpretExpresionLenguaje, izquierda, derecha);
+    sumaExpresion->tablaOperaciones = &tablaOperacionesSuma;
+    return (AbstractExpresion*) sumaExpresion;
 }
