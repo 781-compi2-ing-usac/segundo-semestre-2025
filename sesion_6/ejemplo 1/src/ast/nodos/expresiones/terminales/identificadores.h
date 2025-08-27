@@ -1,5 +1,5 @@
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef EXPRESIONES_H
+#define EXPRESIONES_H
 
 #include "ast/AbstractExpresion.h"
 #include "context/context.h"
@@ -8,9 +8,7 @@
 typedef struct {
     AbstractExpresion base;
     char* nombre;
-    TipoDato tipo;
-} DeclaracionVariable;
+} IdentificadorExpresion;
 
-Result interpretDeclaracionVariable(AbstractExpresion*, Context*);
-
+Result interpretIdentificadorExpresion(AbstractExpresion*, Context*);
 #endif

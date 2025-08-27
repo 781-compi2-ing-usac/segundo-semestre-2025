@@ -22,6 +22,7 @@ struct Symbol{
 };
 
 struct Context {
+    int nombre;
     Context* anterior;
     Symbol* ultimoSymbol; //tabla de simbolos
 };

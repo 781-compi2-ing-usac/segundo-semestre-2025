@@ -7,7 +7,11 @@
 Context* nuevoContext(Context* anterior) {
     Context* nuevo = malloc(sizeof(Context));
     nuevo->anterior = anterior;
+    if (anterior) {
+        nuevo->nombre = anterior->nombre + 1;
+    }
     nuevo->ultimoSymbol = NULL;
+
     return nuevo;
 }
 
@@ -21,6 +25,10 @@ Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo) {
 }
 
 void agregarSymbol(Context* actual, Symbol* symbol) {
+    if (buscarSymbol(actual->ultimoSymbol, symbol->nombre)) {
+        printf("La variable de nombre '%s' ya existe.\n", symbol->nombre);
+        return;
+    }
     symbol->anterior = actual->ultimoSymbol;
     actual->ultimoSymbol = symbol;
 }

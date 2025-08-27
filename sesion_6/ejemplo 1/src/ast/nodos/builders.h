@@ -10,8 +10,10 @@
 
 AbstractExpresion* nuevoInstruccionesExpresion(void);
 AbstractExpresion* nuevoPrintExpresion(AbstractExpresion* listaExpresiones);
-AbstractExpresion* nuevoPrimitivoExpresion(char* valor, char tipo);//, int lengthValor);
+AbstractExpresion* nuevoPrimitivoExpresion(char* valor, char tipo);
 AbstractExpresion* nuevoListaExpresiones(void);
+AbstractExpresion* nuevoDeclaracionVariables(TipoDato, char* nombre, AbstractExpresion* expresion);
+AbstractExpresion* nuevoIdentificadorExpresion(char* nombre);
 //AbstractExpresion* nuevoExpresionLenguaje(char op, AbstractExpresion* izquierda, AbstractExpresion* derecha);
 
 /*

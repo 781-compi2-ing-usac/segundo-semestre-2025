@@ -20,11 +20,9 @@ int main(int argc, char** argv) {
     if (yyparse() == 0) {
         if (ast_root) {
             printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
-            Context contextPadre = {};
-            ast_root->interpret(ast_root, &contextPadre);
+            Context* contextPadre = nuevoContext(NULL);
+            ast_root->interpret(ast_root, contextPadre);
             printf("Fin, arhivo validado.\n");
-            //liberarAST(ast_root);
-            //ast_root = NULL;
         } else {
             printf("No input parsed.\n");
         }

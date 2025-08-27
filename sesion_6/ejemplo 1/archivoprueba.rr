@@ -10,3 +10,7 @@ print(2.6564);
 print("hola mundo");
 print("hola mundo");
 print(3+3);
+int variable = 10 + 5;
+int variable2 = 10 + 15;
+
+print(variable + variable2);
