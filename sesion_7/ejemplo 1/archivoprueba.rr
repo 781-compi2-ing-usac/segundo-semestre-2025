@@ -1,0 +1,29 @@
+print(2);
+print(1+1+3+(5+5), 6-3, -55, 1.1+1.2);
+
+(*
+asdfkasfñlkajdf //asdfaf
+*)
+
+//falso
+print(2.6564);
+print("hola mundo");
+print("hola mundo");
+print(3+3);
+int variable = 10 + 5;
+int variable2 = 10 + 15;
+
+if (2 == 3) {
+    print("hola");
+} else if (true) {
+    print("fall");
+    if (2 == 3) {
+        print("hola");
+    } else if (true) {
+        print("fall");
+    } else {
+        print("final");
+    };
+} else {
+    print("final");
+};
