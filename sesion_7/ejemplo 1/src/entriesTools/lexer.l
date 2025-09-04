@@ -60,11 +60,13 @@ bad_string        \"([^"\n]|\"\")+
 if                  return(TOKEN_IF);
 else                return(TOKEN_ELSE);
 print               return(TOKEN_PRINT);
+func               return(TOKEN_FUNC);
 int                 return(TOKEN_DINT);
 float               return(TOKEN_DFLOAT);
 String              return(TOKEN_DSTRING);
 true                return(TOKEN_TRUE);
 false               return(TOKEN_FALSE);
+return              return(TOKEN_RETURN);
 
 {unsigned_integer}   {yylval.string = strdup(yytext); return(TOKEN_UNSIGNED_INTEGER);}
 {real}               {yylval.string = strdup(yytext); return(TOKEN_REAL);}

@@ -9,28 +9,29 @@
 
 Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
     ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
-    calcularResultados(nodo, context);
+    Result izquierda = calcularResultadoIzquierdo(nodo, context);
+    Result derecha = calcularResultadoDerecho(nodo, context);
     
-    Operacion op = (*nodo->tablaOperaciones)[nodo->izquierda.tipo][nodo->derecha.tipo];
+    Operacion op = (*nodo->tablaOperaciones)[izquierda.tipo][derecha.tipo];
     if (op == NULL) {
         printf("Operación no soportada para los tipos %s, %s\n", 
-            labelTipoDato[nodo->izquierda.tipo], labelTipoDato[nodo->derecha.tipo]);
+            labelTipoDato[izquierda.tipo], labelTipoDato[derecha.tipo]);
             return nuevoValorResultadoVacio();
     }
-    return op(nodo);
+    return op(izquierda, derecha);
 }
 
 Result interpretUnarioLenguaje(AbstractExpresion* self, Context* context) {
     ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
-    calcularResultadoIzquierdo(nodo, context);
+    Result izquierda = calcularResultadoIzquierdo(nodo, context);
 
-    Operacion op = (*nodo->tablaOperaciones)[nodo->izquierda.tipo][NULO];
+    Operacion op = (*nodo->tablaOperaciones)[izquierda.tipo][NULO];
     if (op == NULL) {
         printf("Operación no soportada para el tipo %s\n", 
-            labelTipoDato[nodo->izquierda.tipo]);
+            labelTipoDato[izquierda.tipo]);
         return nuevoValorResultadoVacio();
     }
-    return op(nodo);
+    return op(izquierda, nuevoValorResultadoVacio());
 }
 
 ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha) {
@@ -48,15 +49,10 @@ ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractE
     return nodo;
 }
 
-void calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context) {
-    self->izquierda = self->base.hijos[0]->interpret(self->base.hijos[0], context);
+Result calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context) {
+    return self->base.hijos[0]->interpret(self->base.hijos[0], context);
 }
 
-void calcularResultadoDerecho(ExpresionLenguaje* self, Context* context) {
-    self->derecha = self->base.hijos[1]->interpret(self->base.hijos[1], context);
-}
-
-void calcularResultados(ExpresionLenguaje* self, Context* context) {
-    calcularResultadoIzquierdo(self, context);
-    calcularResultadoDerecho(self, context);
+Result calcularResultadoDerecho(ExpresionLenguaje* self, Context* context) {
+    return self->base.hijos[1]->interpret(self->base.hijos[1], context);
 }

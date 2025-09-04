@@ -10,6 +10,7 @@
 Result interpretDeclaracionVariable(AbstractExpresion* nodo, Context* context) {
     DeclaracionVariable* self = (DeclaracionVariable*) nodo;
     
+    //se esta definiendo
     if (nodo->numHijos > 0) {
         Result resultado = nodo->hijos[0]->interpret(nodo->hijos[0], context);
         if (resultado.tipo == self->tipo) {

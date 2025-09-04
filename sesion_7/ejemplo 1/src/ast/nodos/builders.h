@@ -32,5 +32,6 @@ AbstractExpresion* nuevoIfExpresion(AbstractExpresion* expresion, AbstractExpres
 AbstractExpresion* nuevoIfElseExpresion(AbstractExpresion* expresion, AbstractExpresion* bloqueTrue, AbstractExpresion* bloqueFalse);
 AbstractExpresion* nuevoElseIfExpresion(AbstractExpresion* expresion, AbstractExpresion* bloqueTrue, AbstractExpresion* IfExpresionSiguiente);
 
+AbstractExpresion* nuevoFuncionExpresion(TipoDato tipoDato, char* nombre, AbstractExpresion* listaExpr, AbstractExpresion* bloque);
 
 #endif

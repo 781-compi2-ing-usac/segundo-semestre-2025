@@ -7,15 +7,15 @@
 
 #include <stdlib.h>
 
-Result negarAritmeticoInt(ExpresionLenguaje* self) {
+Result negarAritmeticoInt(Result izquierda, Result derecha) {
     int* res = malloc(sizeof(int));
-    *res = - *((int*)self->izquierda.valor);
+    *res = - *((int*)izquierda.valor);
     return nuevoValorResultado(res, INT);
 }
 
-Result negarAritmeticoFloat(ExpresionLenguaje* self) {
+Result negarAritmeticoFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = - *((float*)self->izquierda.valor);
+    *res = - *((float*)izquierda.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 

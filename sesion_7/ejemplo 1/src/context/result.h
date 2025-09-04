@@ -1,6 +1,7 @@
 #ifndef RESULT_H
 #define RESULT_H
 
+#include <stdbool.h>
 // El orden es la jerarquia del resultado en la operación
 typedef enum {
     BOOLEAN,
@@ -17,6 +18,7 @@ extern char* labelTipoDato[];
 typedef struct {
     TipoDato tipo;
     void* valor;
+    bool isReturn;
 } Result;
 
 TipoDato tipoResultante(Result, Result);

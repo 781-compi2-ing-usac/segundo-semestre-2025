@@ -8,27 +8,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result sumarIntInt(ExpresionLenguaje* self) {
+Result sumarIntInt(Result izquierda, Result derecha) {
     int* res = malloc(sizeof(int));
-    *res =  *((int*)self->izquierda.valor) + *((int*)self->derecha.valor);
+    *res =  *((int*) izquierda.valor) + *((int*) derecha.valor);
     return nuevoValorResultado(res, INT);
 }
 
-Result sumarFloatFloat(ExpresionLenguaje* self) {
+Result sumarFloatFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)self->izquierda.valor) + *((float*)self->derecha.valor);
+    *res = *((float*)izquierda.valor) + *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result sumarIntFloat(ExpresionLenguaje* self) {
+Result sumarIntFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((int*)self->izquierda.valor) + *((float*)self->derecha.valor);
+    *res = *((int*)izquierda.valor) + *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result sumarFloatInt(ExpresionLenguaje* self) {
+Result sumarFloatInt(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)self->izquierda.valor) + *((int*)self->derecha.valor);
+    *res = *((float*)izquierda.valor) + *((int*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 

@@ -8,27 +8,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result restaIntInt(ExpresionLenguaje* self) {
+Result restaIntInt(Result izquierda, Result derecha) {
     int* res = malloc(sizeof(int));
-    *res = *((int*)self->izquierda.valor) - *((int*)self->derecha.valor);
+    *res = *((int*)izquierda.valor) - *((int*)derecha.valor);
     return nuevoValorResultado(res, INT);
 }
 
-Result restaFloatFloat(ExpresionLenguaje* self) {
+Result restaFloatFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)self->izquierda.valor) - *((float*)self->derecha.valor);
+    *res = *((float*)izquierda.valor) - *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result restaIntFloat(ExpresionLenguaje* self) {
+Result restaIntFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((int*)self->izquierda.valor) - *((float*)self->derecha.valor);
+    *res = *((int*)izquierda.valor) - *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result restaFloatInt(ExpresionLenguaje* self) {
+Result restaFloatInt(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)self->izquierda.valor) - *((int*)self->derecha.valor);
+    *res = *((float*)izquierda.valor) - *((int*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 

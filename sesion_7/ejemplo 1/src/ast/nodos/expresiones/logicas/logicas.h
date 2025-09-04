@@ -7,7 +7,7 @@
 #include "ast/nodos/expresiones/expresiones.h"
 
 /* SUMA */
-Result compararIntInt(ExpresionLenguaje* self);
+Result compararIntInt(Result izquierda, Result derecha);
 
 extern Operacion tablaOperacionesComparacion[TIPO_COUNT][TIPO_COUNT];
 

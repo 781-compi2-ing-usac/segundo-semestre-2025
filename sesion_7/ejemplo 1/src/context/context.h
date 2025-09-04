@@ -1,6 +1,7 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
+#include "context/definiciones.h"
 #include "result.h"
 
 typedef enum {
@@ -9,15 +10,12 @@ typedef enum {
     STRUCT,
 } Clase;
 
-typedef struct Symbol Symbol;
-typedef struct Context Context;
-
 struct Symbol{
     char* nombre;
     void* valor;
     TipoDato tipo;
     Clase clase;
-
+    AbstractExpresion* nodo;
     Symbol* anterior;
 };
 
@@ -29,6 +27,7 @@ struct Context {
 
 Context* nuevoContext(Context* anterior);
 Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo);
+Symbol* nuevaFuncion(char* nombre, TipoDato tipo, AbstractExpresion* nodo);
 void agregarSymbol(Context* actual, Symbol*);
 Symbol* buscarSymbol(Symbol* actual, char* nombre);
 Symbol* buscarTablaSimbolos(Context* actual, char* nombre);

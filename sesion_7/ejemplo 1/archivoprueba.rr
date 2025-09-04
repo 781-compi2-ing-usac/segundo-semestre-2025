@@ -19,7 +19,7 @@ if (2 == 3) {
     print("fall");
     if (2 == 3) {
         print("hola");
-    } else if (true) {
+    } else if (false) {
         print("fall");
     } else {
         print("final");

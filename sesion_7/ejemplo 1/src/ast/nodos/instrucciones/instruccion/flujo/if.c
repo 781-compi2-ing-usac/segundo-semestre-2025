@@ -18,6 +18,7 @@ Result interpretIfExpresion(AbstractExpresion* self, Context* context) {
     
     if (result.tipo == BOOLEAN) {
         if (*((bool*) result.valor)) {
+            //bloque de instrucciones verdadero
             return self->hijos[1]->interpret(self->hijos[1], nuevoContexto);
         } else if (nodo->isElseif) {
             //le pasa el contexto padre

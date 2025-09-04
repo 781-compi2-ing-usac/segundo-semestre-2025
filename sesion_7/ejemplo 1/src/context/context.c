@@ -24,6 +24,15 @@ Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo) {
     return nuevo;
 }
 
+Symbol* nuevaFuncion(char* nombre, TipoDato tipo, AbstractExpresion* nodo) {
+    Symbol* nuevo = malloc(sizeof(Symbol));
+    nuevo->nombre = nombre;
+    nuevo->tipo = tipo;
+    nuevo->clase = FUNCION;
+    nuevo->nodo = nodo;
+    return nuevo;
+}
+
 void agregarSymbol(Context* actual, Symbol* symbol) {
     if (buscarSymbol(actual->ultimoSymbol, symbol->nombre)) {
         printf("La variable de nombre '%s' ya existe.\n", symbol->nombre);

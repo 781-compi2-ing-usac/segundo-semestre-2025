@@ -6,12 +6,10 @@
 #include "context/result.h"
 
 typedef struct ExpresionLenguaje ExpresionLenguaje;
-typedef Result (*Operacion)(ExpresionLenguaje*);
+typedef Result (*Operacion)(Result, Result);
 
 struct ExpresionLenguaje{
     AbstractExpresion base;
-    Result izquierda;
-    Result derecha;
     Operacion (*tablaOperaciones)[TIPO_COUNT][TIPO_COUNT];
 };
 
@@ -22,7 +20,6 @@ Result interpretUnarioLenguaje(AbstractExpresion* self, Context* context);
 //constructor
 ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha);
 
-void calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context);
-void calcularResultadoDerecho(ExpresionLenguaje* self, Context* context);
-void calcularResultados(ExpresionLenguaje* self, Context* context);
+Result calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context);
+Result calcularResultadoDerecho(ExpresionLenguaje* self, Context* context);
 #endif

@@ -29,11 +29,11 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE
-TOKEN_DSTRING TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_IDENTIFIER
+%token <string> TOKEN_PRINT TOKEN_DINT TOKEN_DFLOAT TOKEN_IF TOKEN_ELSE TOKEN_TRUE TOKEN_FALSE TOKEN_FUNC
+TOKEN_DSTRING TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_IDENTIFIER TOKEN_RETURN
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var primitivo sentencia_if
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var primitivo sentencia_if sentencia_funcion
 
 %type <tipoDato> tipoPrimitivo
 
@@ -63,7 +63,9 @@ sentencia: imprimir {$$ = $1; }
     | bloque {$$ = $1;}
     | declaracion_var {$$ = $1;}
     | sentencia_if { $$ = $1; }
-    | {}
+    | sentencia_funcion { $$ = $1; }
+    | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
+    | TOKEN_RETURN expr { $$ = NULL; } /* sin implementar */
     ;
 
 lista_Expr: lista_Expr ','  expr { agregarHijo($1, $3); $$ = $1; }
@@ -89,6 +91,10 @@ sentencia_if: TOKEN_IF '(' expr ')' bloque { $$ = nuevoIfExpresion($3, $5); }
     | TOKEN_IF '(' expr ')' bloque TOKEN_ELSE sentencia_if { $$ = nuevoElseIfExpresion($3, $5, $7); }
     ;
 
+sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_Expr ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, $5, $7);}
+    | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, NULL, $6);}
+    ;
+
 /* 
 TODO: para mejorar la legibilidad en lugar de guardar la operacion por incumplir
 el principio de responsabilidad única y también el Principio de abierto/cerrado (SOLID)
@@ -110,6 +116,8 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '=' '=' expr { $$ = nuevoComparacionExpresion($1, $4); }
     | primitivo { $$ = $1; }
     | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1); }
+    | TOKEN_IDENTIFIER '(' lista_Expr ')' { /* sin implementar */ }
+    | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
     ;
 
 primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }

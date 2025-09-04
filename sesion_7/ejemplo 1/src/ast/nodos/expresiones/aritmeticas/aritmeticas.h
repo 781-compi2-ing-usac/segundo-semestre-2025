@@ -7,24 +7,24 @@
 #include "ast/nodos/expresiones/expresiones.h"
 
 /* SUMA */
-Result sumarIntInt(ExpresionLenguaje* self);
-Result sumarFloatFloat(ExpresionLenguaje* self);
-Result sumarIntFloat(ExpresionLenguaje* self);
-Result sumarFloatInt(ExpresionLenguaje* self);
+Result sumarIntInt(Result, Result);
+Result sumarFloatFloat(Result, Result);
+Result sumarIntFloat(Result, Result);
+Result sumarFloatInt(Result, Result);
 
 extern Operacion tablaOperacionesSuma[TIPO_COUNT][TIPO_COUNT];
 
 /* RESTA */
-Result restaIntInt(ExpresionLenguaje* self);
-Result restaFloatFloat(ExpresionLenguaje* self);
-Result restaIntFloat(ExpresionLenguaje* self);
-Result restaFloatInt(ExpresionLenguaje* self);
+Result restaIntInt(Result, Result);
+Result restaFloatFloat(Result, Result);
+Result restaIntFloat(Result, Result);
+Result restaFloatInt(Result, Result);
 
 extern Operacion tablaOperacionesResta[TIPO_COUNT][TIPO_COUNT];
 
 /* UNARIO */
-Result negarAritmeticoInt(ExpresionLenguaje* self);
-Result negarAritmeticoFloat(ExpresionLenguaje* self);
+Result negarAritmeticoInt(Result, Result);
+Result negarAritmeticoFloat(Result, Result);
 
 extern Operacion tablaOperacionesUnario[TIPO_COUNT][TIPO_COUNT];
 
