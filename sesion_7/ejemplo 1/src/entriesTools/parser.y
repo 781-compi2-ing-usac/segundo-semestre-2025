@@ -33,7 +33,7 @@
 TOKEN_DSTRING TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_IDENTIFIER TOKEN_RETURN
 
 /* Tipo de los no-terminales que llevan valor */
-%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var primitivo sentencia_if sentencia_funcion
+%type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque declaracion_var primitivo sentencia_if sentencia_funcion lista_parametros
 
 %type <tipoDato> tipoPrimitivo
 
@@ -91,7 +91,15 @@ sentencia_if: TOKEN_IF '(' expr ')' bloque { $$ = nuevoIfExpresion($3, $5); }
     | TOKEN_IF '(' expr ')' bloque TOKEN_ELSE sentencia_if { $$ = nuevoElseIfExpresion($3, $5, $7); }
     ;
 
-sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_Expr ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, $5, $7);}
+lista_parametros: lista_parametros ',' declaracion_var { agregarHijo($1, $3); $$ = $1; }
+    | declaracion_var { AbstractExpresion* b = nuevoListaParametros();
+                agregarHijo(b, $1);
+                $$ =  b; }
+    ;
+
+argumento: tipoPrimitivo TOKEN_IDENTIFIER {  };
+
+sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, $5, $7);}
     | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, NULL, $6);}
     ;
 
@@ -116,7 +124,7 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '=' '=' expr { $$ = nuevoComparacionExpresion($1, $4); }
     | primitivo { $$ = $1; }
     | TOKEN_IDENTIFIER { $$ = nuevoIdentificadorExpresion($1); }
-    | TOKEN_IDENTIFIER '(' lista_Expr ')' { /* sin implementar */ }
+    | TOKEN_IDENTIFIER '(' lista_Expr ')' { $$ = nuevoLlamadaExpresion($1, $3); }
     | TOKEN_IDENTIFIER '('')' { /* sin implementar */ }
     ;
 

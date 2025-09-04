@@ -16,6 +16,7 @@ Result nuevoValorResultado(void* valor, TipoDato tipo) {
     Result resultado;
     resultado.tipo = tipo;
     resultado.valor = valor;
+    resultado.isReturn = false;
     return resultado;
 }
 
@@ -23,6 +24,7 @@ Result nuevoValorResultadoVacio() {
     Result resultado;
     resultado.tipo = NULO;
     resultado.valor = NULL;
+    resultado.isReturn = false;
     return resultado;
 }
 

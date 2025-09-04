@@ -21,6 +21,7 @@ struct Symbol{
 
 struct Context {
     int nombre;
+    Context* global; //referencia al contexto global
     Context* anterior;
     Symbol* ultimoSymbol; //tabla de simbolos
 };

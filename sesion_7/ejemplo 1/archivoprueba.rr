@@ -27,3 +27,13 @@ if (2 == 3) {
 } else {
     print("final");
 };
+
+
+int func funcion1() {
+    print("hola");
+    return 35;
+};
+
+print(funcion1());
+
+print("hola");

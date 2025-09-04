@@ -15,7 +15,7 @@ Result interpretFuncionExpresion(AbstractExpresion* nodo, Context* context) {
     return nuevoValorResultadoVacio();
 }
 
-AbstractExpresion* nuevoFuncionExpresion(TipoDato tipoDato, char* nombre, AbstractExpresion* listaExpresiones, AbstractExpresion* bloque) {
+AbstractExpresion* nuevoFuncionExpresion(TipoDato tipoDato, char* nombre, AbstractExpresion* ListaParametros, AbstractExpresion* bloque) {
     //reservar el espacio en memoria y obtener el puntero a este
     FuncionExpresion* nodo = malloc(sizeof(FuncionExpresion));
     if (!nodo) return NULL;
@@ -24,7 +24,7 @@ AbstractExpresion* nuevoFuncionExpresion(TipoDato tipoDato, char* nombre, Abstra
     nodo->nombre = nombre;
     nodo->tipo = tipoDato;
 
-    if (listaExpresiones) agregarHijo((AbstractExpresion*) nodo, listaExpresiones);
+    if (ListaParametros) agregarHijo((AbstractExpresion*) nodo, ListaParametros);
     agregarHijo((AbstractExpresion*) nodo, bloque);
     
     return (AbstractExpresion*) nodo;

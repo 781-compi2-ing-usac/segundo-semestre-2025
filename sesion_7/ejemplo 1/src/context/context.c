@@ -9,6 +9,9 @@ Context* nuevoContext(Context* anterior) {
     nuevo->anterior = anterior;
     if (anterior) {
         nuevo->nombre = anterior->nombre + 1;
+        nuevo->global = anterior->global;
+    } else {
+        nuevo->global = nuevo;
     }
     nuevo->ultimoSymbol = NULL;
 
