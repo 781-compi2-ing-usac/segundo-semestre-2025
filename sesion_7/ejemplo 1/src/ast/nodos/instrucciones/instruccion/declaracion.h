@@ -11,6 +11,6 @@ typedef struct {
     TipoDato tipo;
 } DeclaracionVariable;
 
-Result* interpretDeclaracionVariable(AbstractExpresion*, Context*);
+Result interpretDeclaracionVariable(AbstractExpresion*, Context*);
 
 #endif

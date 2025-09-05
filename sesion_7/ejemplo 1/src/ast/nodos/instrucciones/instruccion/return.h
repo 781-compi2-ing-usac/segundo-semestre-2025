@@ -9,6 +9,6 @@ typedef struct {
     AbstractExpresion base;
 } ReturnExpresion;
 
-Result* interpretReturnExpresion(AbstractExpresion*, Context*);
+Result interpretReturnExpresion(AbstractExpresion*, Context*);
 
 #endif

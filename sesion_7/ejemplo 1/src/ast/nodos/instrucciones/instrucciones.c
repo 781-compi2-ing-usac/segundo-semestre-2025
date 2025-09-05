@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result* interpretInstrucciones(AbstractExpresion* self, Context* context) {
+Result interpretInstrucciones(AbstractExpresion* self, Context* context) {
     for (size_t i = 0; i < self->numHijos; ++i) {
-        Result* resultadoSentencia = self->hijos[i]->interpret(self->hijos[i], context);
-        if (resultadoSentencia->isReturn) {
+        Result resultadoSentencia = self->hijos[i]->interpret(self->hijos[i], context);
+        if (resultadoSentencia.isReturn) {
             return resultadoSentencia;
         }
     }

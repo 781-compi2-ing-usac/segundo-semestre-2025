@@ -13,7 +13,7 @@
     porque si usamos la direccion de memoria de esa variable, es posible que el garbage
     collector la elimine por ser variable local
 */
-Result* interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
+Result interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
     PrimitivoExpresion* nodo = (PrimitivoExpresion*) self;
     switch (nodo->tipo) {
         case INT:

@@ -7,15 +7,15 @@
 
 #include <stdlib.h>
 
-Result* negarAritmeticoInt(Result* izquierda, Result* derecha) {
+Result negarAritmeticoInt(Result izquierda, Result derecha) {
     int* res = malloc(sizeof(int));
-    *res = - *((int*)izquierda->valor);
+    *res = - *((int*)izquierda.valor);
     return nuevoValorResultado(res, INT);
 }
 
-Result* negarAritmeticoFloat(Result* izquierda, Result* derecha) {
+Result negarAritmeticoFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = - *((float*)izquierda->valor);
+    *res = - *((float*)izquierda.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 

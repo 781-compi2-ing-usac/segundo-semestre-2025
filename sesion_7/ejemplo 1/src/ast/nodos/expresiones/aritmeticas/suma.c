@@ -8,27 +8,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result* sumarIntInt(Result* izquierda, Result* derecha) {
+Result sumarIntInt(Result izquierda, Result derecha) {
     int* res = malloc(sizeof(int));
-    *res =  *((int*) izquierda->valor) + *((int*) derecha->valor);
+    *res =  *((int*) izquierda.valor) + *((int*) derecha.valor);
     return nuevoValorResultado(res, INT);
 }
 
-Result* sumarFloatFloat(Result* izquierda, Result* derecha) {
+Result sumarFloatFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)izquierda->valor) + *((float*)derecha->valor);
+    *res = *((float*)izquierda.valor) + *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result* sumarIntFloat(Result* izquierda, Result* derecha) {
+Result sumarIntFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((int*)izquierda->valor) + *((float*)derecha->valor);
+    *res = *((int*)izquierda.valor) + *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result* sumarFloatInt(Result* izquierda, Result* derecha) {
+Result sumarFloatInt(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)izquierda->valor) + *((int*)derecha->valor);
+    *res = *((float*)izquierda.valor) + *((int*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 

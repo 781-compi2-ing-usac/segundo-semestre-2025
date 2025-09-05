@@ -7,14 +7,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result* interpretReturnExpresion(AbstractExpresion* self, Context* context) {
+Result interpretReturnExpresion(AbstractExpresion* self, Context* context) {
     if (self->numHijos == 1) {
-        Result* resultadoReturn = self->hijos[0]->interpret(self->hijos[0], context);
-        resultadoReturn->isReturn = true;
+        Result resultadoReturn = self->hijos[0]->interpret(self->hijos[0], context);
+        resultadoReturn.isReturn = true;
         return resultadoReturn;
     } else {
-        Result* resultadoVacio = nuevoValorResultadoVacio();
-        resultadoVacio->isReturn = true;
+        Result resultadoVacio = nuevoValorResultadoVacio();
+        resultadoVacio.isReturn = true;
         return resultadoVacio;
     }
 }

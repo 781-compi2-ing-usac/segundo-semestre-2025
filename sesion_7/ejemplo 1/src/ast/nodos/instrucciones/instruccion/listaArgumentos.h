@@ -9,6 +9,6 @@ typedef struct {
     AbstractExpresion base;
 } ListaParametros;
 
-//Result* interpretListaExpresiones(AbstractExpresion*, Context*);
+//Result interpretListaExpresiones(AbstractExpresion*, Context*);
 
 #endif

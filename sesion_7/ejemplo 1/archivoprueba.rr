@@ -29,11 +29,11 @@ if (variable == 15) {
 };
 
 
-int func factorial(int n) {
+int func recursiva(int n) {
     if (n == 0) {
         return 1;
     };
-    return n + factorial(n - 1);
+    return recursiva(n-1) + recursiva(n - 1);
 };
 
-print(factorial(3));
+print(recursiva(2));

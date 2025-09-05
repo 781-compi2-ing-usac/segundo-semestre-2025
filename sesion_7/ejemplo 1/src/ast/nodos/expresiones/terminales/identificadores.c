@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result* interpretIdentificadorExpresion(AbstractExpresion* self, Context* context) {
+Result interpretIdentificadorExpresion(AbstractExpresion* self, Context* context) {
     IdentificadorExpresion* nodo = (IdentificadorExpresion*) self;
     Symbol* valorEncontrado = buscarTablaSimbolos(context, nodo->nombre);
     if (valorEncontrado) {

@@ -11,6 +11,6 @@ typedef struct {
     TipoDato tipo;
 } FuncionExpresion;
 
-Result* interpretFuncionExpresion(AbstractExpresion*, Context*);
+Result interpretFuncionExpresion(AbstractExpresion*, Context*);
 
 #endif

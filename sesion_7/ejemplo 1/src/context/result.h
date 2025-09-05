@@ -21,10 +21,10 @@ typedef struct {
     bool isReturn;
 } Result;
 
-TipoDato tipoResultante(Result*, Result*);
-/*utilizado para devolver un Result**/
-Result* nuevoValorResultado(void* valor, TipoDato tipo);
+TipoDato tipoResultante(Result, Result);
+/*utilizado para devolver un Result*/
+Result nuevoValorResultado(void* valor, TipoDato tipo);
 /*Utilizado para devolver una repuesta nula */
-Result* nuevoValorResultadoVacio(void);
+Result nuevoValorResultadoVacio(void);
 
 #endif

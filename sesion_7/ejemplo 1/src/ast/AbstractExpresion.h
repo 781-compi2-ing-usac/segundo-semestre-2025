@@ -11,7 +11,7 @@
  * Link: https://www.geeksforgeeks.org/c/how-to-create-typedef-for-function-pointer-in-c/
  * typedef return_type (*alias_name)(parameter_types and numbers....);
 */
-typedef Result* (*Interpret)(AbstractExpresion*, Context*);
+typedef Result (*Interpret)(AbstractExpresion*, Context*);
 typedef void (*Graficar)(AbstractExpresion*);
 
 struct AbstractExpresion {

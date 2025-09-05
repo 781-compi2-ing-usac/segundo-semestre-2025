@@ -10,6 +10,6 @@ typedef struct {
     char* id;
 } LlamadaFuncionExpresion;
 
-Result* interpretLlamadaFuncionExpresion(AbstractExpresion*, Context*);
+Result interpretLlamadaFuncionExpresion(AbstractExpresion*, Context*);
 
 #endif

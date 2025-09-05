@@ -10,5 +10,5 @@ typedef struct {
     char* nombre;
 } IdentificadorExpresion;
 
-Result* interpretIdentificadorExpresion(AbstractExpresion*, Context*);
+Result interpretIdentificadorExpresion(AbstractExpresion*, Context*);
 #endif

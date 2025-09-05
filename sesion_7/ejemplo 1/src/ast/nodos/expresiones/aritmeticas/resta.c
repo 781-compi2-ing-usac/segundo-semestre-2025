@@ -8,27 +8,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result* restaIntInt(Result* izquierda, Result* derecha) {
+Result restaIntInt(Result izquierda, Result derecha) {
     int* res = malloc(sizeof(int));
-    *res = *((int*)izquierda->valor) - *((int*)derecha->valor);
+    *res = *((int*)izquierda.valor) - *((int*)derecha.valor);
     return nuevoValorResultado(res, INT);
 }
 
-Result* restaFloatFloat(Result* izquierda, Result* derecha) {
+Result restaFloatFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)izquierda->valor) - *((float*)derecha->valor);
+    *res = *((float*)izquierda.valor) - *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result* restaIntFloat(Result* izquierda, Result* derecha) {
+Result restaIntFloat(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((int*)izquierda->valor) - *((float*)derecha->valor);
+    *res = *((int*)izquierda.valor) - *((float*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 
-Result* restaFloatInt(Result* izquierda, Result* derecha) {
+Result restaFloatInt(Result izquierda, Result derecha) {
     float* res = malloc(sizeof(float));
-    *res = *((float*)izquierda->valor) - *((int*)derecha->valor);
+    *res = *((float*)izquierda.valor) - *((int*)derecha.valor);
     return nuevoValorResultado(res, FLOAT);
 }
 

@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-Result* compararIntInt(Result* izquierda, Result* derecha) {
+Result compararIntInt(Result izquierda, Result derecha) {
     bool* res = malloc(sizeof(bool));
-    *res = *((int*) izquierda->valor) == *((int*) derecha->valor);
+    *res = *((int*) izquierda.valor) == *((int*) derecha.valor);
     return nuevoValorResultado(res, BOOLEAN);
 }
 
