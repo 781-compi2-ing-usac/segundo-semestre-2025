@@ -19,7 +19,6 @@ Result* interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
         case INT:
             int* valorint = malloc(sizeof(int));
             *valorint = atoi(nodo->valor);
-            free(nodo->valor);
             return nuevoValorResultado((void*) valorint, nodo->tipo);
         case BOOLEAN:
             bool* valorbool = malloc(sizeof(bool));
@@ -34,7 +33,6 @@ Result* interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
         case FLOAT:
             float* valorfloat = malloc(sizeof(float));
             *valorfloat = atof(nodo->valor);
-            free(nodo->valor);
             return nuevoValorResultado((void*) valorfloat, nodo->tipo);
         case STRING:
             return nuevoValorResultado((void*) nodo->valor, nodo->tipo);

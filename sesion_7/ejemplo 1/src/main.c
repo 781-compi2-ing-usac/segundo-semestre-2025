@@ -21,11 +21,10 @@ int main(int argc, char** argv) {
         if (ast_root) {
             printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
             Context* contextPadre = nuevoContext(NULL);
-            contextPadre->archivo = fopen("datos.txt", "w");
-            // Verifica si el archivo se abrió correctamente
+            contextPadre->archivo = fopen("salida.txt", "w");
             if (contextPadre->archivo == NULL) {
                 printf("Error: No se pudo abrir el archivo.\n");
-                return 1; // Devuelve un código de error
+                return 1;
             }
             ast_root->interpret(ast_root, contextPadre);
             fclose(contextPadre->archivo);

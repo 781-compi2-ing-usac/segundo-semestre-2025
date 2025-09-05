@@ -7,13 +7,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int contador = 0;
-
 Result* interpretLlamadaFuncionExpresion(AbstractExpresion* self, Context* context) {
     LlamadaFuncionExpresion* nodo = (LlamadaFuncionExpresion*) self;
     Symbol* symbolEncontrado = buscarTablaSimbolos(context, nodo->id);
-    contador++;
-    fprintf(context->global->archivo, "entrada No. %d, nombre contexto %d\n", contador, context->nombre);
     if (symbolEncontrado && symbolEncontrado->clase == FUNCION) {
         //crear nuevo contexto
         Context* contextFuncion = nuevoContext(context->global);
