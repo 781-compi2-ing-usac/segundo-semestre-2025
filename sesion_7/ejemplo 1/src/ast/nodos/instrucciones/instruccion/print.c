@@ -8,27 +8,27 @@
 #include <stdio.h>
 
 
-Result interpretPrintExpresion(AbstractExpresion* self, Context* context) {
+Result* interpretPrintExpresion(AbstractExpresion* self, Context* context) {
     // interpretar la lista de expresiones
     // recorremos  cada expresion y lo que nos devuelva imprimimos el valor
     AbstractExpresion* listaExpresiones = self->hijos[0];
     for (size_t i = 0; i < listaExpresiones->numHijos; ++i) {
-        Result result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
-        switch (result.tipo) {
+        Result* result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
+        switch (result->tipo) {
             case STRING:
-                printf("%s\n", (char*) result.valor);
+                fprintf(context->global->archivo, "%s\n", (char*) result->valor);
                 break;
             case INT:
-                printf("%d\n", *(int*)result.valor);
+                fprintf(context->global->archivo, "%d\n", *(int*)result->valor);
                 break;
             case FLOAT:
-                printf("%f\n", *(float*)result.valor);
+                fprintf(context->global->archivo, "%f\n", *(float*)result->valor);
                 break;
             case NULO:
-                printf("NULL\n");
+                fprintf(context->global->archivo, "NULL\n");
                 break;
             default:
-                printf("Tipo no implementado\n");
+                fprintf(context->global->archivo, "Tipo no implementado\n");
         }
     }
     return nuevoValorResultadoVacio();

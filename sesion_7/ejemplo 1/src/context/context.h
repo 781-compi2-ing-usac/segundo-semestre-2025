@@ -4,6 +4,8 @@
 #include "context/definiciones.h"
 #include "result.h"
 
+#include <stdio.h>
+
 typedef enum {
     VARIABLE,
     FUNCION,
@@ -24,6 +26,7 @@ struct Context {
     Context* global; //referencia al contexto global
     Context* anterior;
     Symbol* ultimoSymbol; //tabla de simbolos
+    FILE* archivo;
 };
 
 Context* nuevoContext(Context* anterior);

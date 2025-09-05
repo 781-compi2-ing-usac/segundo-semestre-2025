@@ -7,10 +7,8 @@
 
 typedef struct {
     AbstractExpresion base;
-    char* nombre;
-    TipoDato tipo;
-} DeclaracionVariable;
+} PrintExpresion;
 
-Result* interpretDeclaracionVariable(AbstractExpresion*, Context*);
+Result interpretPrintExpresion(AbstractExpresion*, Context*);
 
 #endif

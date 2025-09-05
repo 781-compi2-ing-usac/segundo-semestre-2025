@@ -38,8 +38,8 @@ typedef struct {
     //sentencias else
 } IfExpresion;
 
-Result interpretIfExpresion(AbstractExpresion*, Context*);
-Result interpretIfElseExpresion(AbstractExpresion*, Context*);
-Result interpretElseIfExpresion(AbstractExpresion*, Context*);
+Result* interpretIfExpresion(AbstractExpresion*, Context*);
+Result* interpretIfElseExpresion(AbstractExpresion*, Context*);
+Result* interpretElseIfExpresion(AbstractExpresion*, Context*);
 
 #endif

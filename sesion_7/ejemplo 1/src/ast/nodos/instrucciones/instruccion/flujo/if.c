@@ -9,15 +9,15 @@
 #include <stdbool.h>
 
 
-Result interpretIfExpresion(AbstractExpresion* self, Context* context) {
+Result* interpretIfExpresion(AbstractExpresion* self, Context* context) {
     //nuevo env
     Context* nuevoContexto = nuevoContext(context);
     IfExpresion* nodo = (IfExpresion*) self;
     //todavia contexto anterior
-    Result result = self->hijos[0]->interpret(self->hijos[0], context);
+    Result* result = self->hijos[0]->interpret(self->hijos[0], context);
     
-    if (result.tipo == BOOLEAN) {
-        if (*((bool*) result.valor)) {
+    if (result->tipo == BOOLEAN) {
+        if (*((bool*) result->valor)) {
             //bloque de instrucciones verdadero
             return self->hijos[1]->interpret(self->hijos[1], nuevoContexto);
         } else if (nodo->isElseif) {
@@ -28,7 +28,7 @@ Result interpretIfExpresion(AbstractExpresion* self, Context* context) {
             return self->hijos[2]->interpret(self->hijos[2], nuevoContexto);
         }
     } else {
-        printf("Error se esperaba True o false\n no: %s", labelTipoDato[result.tipo]);
+        printf("Error se esperaba True o false\n no: %s", labelTipoDato[result->tipo]);
     }
     return nuevoValorResultadoVacio();
 }

@@ -6,7 +6,7 @@
 #include "context/result.h"
 
 typedef struct ExpresionLenguaje ExpresionLenguaje;
-typedef Result (*Operacion)(Result, Result);
+typedef Result* (*Operacion)(Result*, Result*);
 
 struct ExpresionLenguaje{
     AbstractExpresion base;
@@ -15,11 +15,11 @@ struct ExpresionLenguaje{
 
 
 //interpret basico de expresiones
-Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context);
-Result interpretUnarioLenguaje(AbstractExpresion* self, Context* context);
+Result* interpretExpresionLenguaje(AbstractExpresion* self, Context* context);
+Result* interpretUnarioLenguaje(AbstractExpresion* self, Context* context);
 //constructor
 ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha);
 
-Result calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context);
-Result calcularResultadoDerecho(ExpresionLenguaje* self, Context* context);
+Result* calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context);
+Result* calcularResultadoDerecho(ExpresionLenguaje* self, Context* context);
 #endif

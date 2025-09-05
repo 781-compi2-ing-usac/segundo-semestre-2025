@@ -65,7 +65,7 @@ sentencia: imprimir {$$ = $1; }
     | sentencia_if { $$ = $1; }
     | sentencia_funcion { $$ = $1; }
     | TOKEN_RETURN { $$ = NULL; }/* sin implementar */
-    | TOKEN_RETURN expr { $$ = NULL; } /* sin implementar */
+    | TOKEN_RETURN expr { $$ = nuevoReturnExpresion($2); } /* sin implementar */
     ;
 
 lista_Expr: lista_Expr ','  expr { agregarHijo($1, $3); $$ = $1; }
@@ -96,8 +96,6 @@ lista_parametros: lista_parametros ',' declaracion_var { agregarHijo($1, $3); $$
                 agregarHijo(b, $1);
                 $$ =  b; }
     ;
-
-argumento: tipoPrimitivo TOKEN_IDENTIFIER {  };
 
 sentencia_funcion: tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' lista_parametros ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, $5, $7);}
     | tipoPrimitivo TOKEN_FUNC TOKEN_IDENTIFIER '(' ')' bloque {  $$ = nuevoFuncionExpresion($1, $3, NULL, $6);}

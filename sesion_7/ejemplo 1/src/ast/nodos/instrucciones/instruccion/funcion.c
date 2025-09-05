@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 //solo se declara y guarda la referencia del subarbol de la funcion para ejectuar en la llamada
-Result interpretFuncionExpresion(AbstractExpresion* nodo, Context* context) {
+Result* interpretFuncionExpresion(AbstractExpresion* nodo, Context* context) {
     FuncionExpresion* self = (FuncionExpresion*) nodo;
 
     agregarSymbol(context, nuevaFuncion(self->nombre, self->tipo, &self->base));

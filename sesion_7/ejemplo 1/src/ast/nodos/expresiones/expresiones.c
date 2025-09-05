@@ -7,28 +7,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
+Result* interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
     ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
-    Result izquierda = calcularResultadoIzquierdo(nodo, context);
-    Result derecha = calcularResultadoDerecho(nodo, context);
+
+    Result* izquierda = calcularResultadoIzquierdo(nodo, context);
+    Result* derecha = calcularResultadoDerecho(nodo, context);
     
-    Operacion op = (*nodo->tablaOperaciones)[izquierda.tipo][derecha.tipo];
+    Operacion op = (*nodo->tablaOperaciones)[izquierda->tipo][derecha->tipo];
     if (op == NULL) {
         printf("Operación no soportada para los tipos %s, %s\n", 
-            labelTipoDato[izquierda.tipo], labelTipoDato[derecha.tipo]);
+            labelTipoDato[izquierda->tipo], labelTipoDato[derecha->tipo]);
             return nuevoValorResultadoVacio();
     }
     return op(izquierda, derecha);
 }
 
-Result interpretUnarioLenguaje(AbstractExpresion* self, Context* context) {
+Result* interpretUnarioLenguaje(AbstractExpresion* self, Context* context) {
     ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
-    Result izquierda = calcularResultadoIzquierdo(nodo, context);
+    Result* izquierda = calcularResultadoIzquierdo(nodo, context);
 
-    Operacion op = (*nodo->tablaOperaciones)[izquierda.tipo][NULO];
+    Operacion op = (*nodo->tablaOperaciones)[izquierda->tipo][NULO];
     if (op == NULL) {
         printf("Operación no soportada para el tipo %s\n", 
-            labelTipoDato[izquierda.tipo]);
+            labelTipoDato[izquierda->tipo]);
         return nuevoValorResultadoVacio();
     }
     return op(izquierda, nuevoValorResultadoVacio());
@@ -49,10 +50,10 @@ ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractE
     return nodo;
 }
 
-Result calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context) {
+Result* calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context) {
     return self->base.hijos[0]->interpret(self->base.hijos[0], context);
 }
 
-Result calcularResultadoDerecho(ExpresionLenguaje* self, Context* context) {
+Result* calcularResultadoDerecho(ExpresionLenguaje* self, Context* context) {
     return self->base.hijos[1]->interpret(self->base.hijos[1], context);
 }

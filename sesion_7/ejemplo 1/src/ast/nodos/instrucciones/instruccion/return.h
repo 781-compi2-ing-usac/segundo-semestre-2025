@@ -1,5 +1,5 @@
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef RETURN_H
+#define RETURN_H
 
 #include "ast/AbstractExpresion.h"
 #include "context/context.h"
@@ -7,8 +7,8 @@
 
 typedef struct {
     AbstractExpresion base;
-} PrintExpresion;
+} ReturnExpresion;
 
-Result* interpretPrintExpresion(AbstractExpresion*, Context*);
+Result* interpretReturnExpresion(AbstractExpresion*, Context*);
 
 #endif

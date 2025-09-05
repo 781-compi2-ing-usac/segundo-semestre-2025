@@ -11,5 +11,5 @@ typedef struct {
     char* valor;
 } PrimitivoExpresion;
 
-Result interpretPrimitivoExpresion(AbstractExpresion*, Context*);
+Result* interpretPrimitivoExpresion(AbstractExpresion*, Context*);
 #endif
