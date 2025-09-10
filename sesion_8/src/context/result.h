@@ -15,11 +15,34 @@ typedef enum {
 
 extern char* labelTipoDato[];
 
+/* struct Symbol{
+    TipoDato tipo;
+    char* nombre;
+    Clase clase;
+    Symbol* anterior;
+}; 
+
+struct Constante {
+    TipoDato tipo;
+    char* nombre;
+    TipoDireccion tipoDireccion;
+}
+
+struct Temporal {
+    TipoDato tipo;
+    char* nombre;
+    TipoDireccion tipoDireccion;
+}
+
+struct Direccion {
+    
+}
+*/
+
 typedef struct {
     TipoDato tipo;
-    char* valor;
-    bool isReturn;
-    bool isConstante;
+    //simular los 3 tipos de memoria
+    //en el resultado
     Symbol* resultado;
 } Result;
 

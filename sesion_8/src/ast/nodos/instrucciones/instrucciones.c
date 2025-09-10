@@ -9,12 +9,8 @@
 
 Result interpretInstrucciones(AbstractExpresion* self, Context* context) {
     for (size_t i = 0; i < self->numHijos; ++i) {
-        Result resultadoSentencia = self->hijos[i]->interpret(self->hijos[i], context);
-        if (resultadoSentencia.isReturn) {
-            return resultadoSentencia;
-        }
+        self->hijos[i]->interpret(self->hijos[i], context);
     }
-    return nuevoValorResultadoVacio(); 
 }
 
 AbstractExpresion* nuevoInstruccionesExpresion() {

@@ -21,8 +21,6 @@ Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
             return nuevoValorResultadoVacio();
     }
     // generar la asignacion con la operacion dada y la funcion especifica
-    Symbol* arg1 = nuevoTemporal(izquierda.tipo);
-    Symbol* agr2 = nuevoTemporal(derecha.tipo);
 
     if (arg1) {
 

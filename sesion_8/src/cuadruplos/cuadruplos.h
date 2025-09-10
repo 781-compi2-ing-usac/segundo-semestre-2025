@@ -19,6 +19,8 @@ typedef void (*GeneradorEnsamblador) ();
 
 struct Cuadruplo {
     OperacionC3D operacion;
+    //simular los 3 tipos de memoria
+    //en el resultado
     Symbol* argumento1;
     Symbol* argumento2;
     Symbol* resultado;
