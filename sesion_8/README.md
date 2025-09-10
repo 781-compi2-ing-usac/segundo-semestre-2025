@@ -28,3 +28,5 @@ Con el comando `make` ejecuta el archivo y busca todos los archivos con extensi�
 ## Ejecución
 
 En la ruta `build/calc` tenemos el archivo compilado de nuestro proyecto, la función main recibe un argumento que es la ruta al `archivo de entrada`.
+
+![alt text](./img/image.png)
