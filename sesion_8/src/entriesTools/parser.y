@@ -29,9 +29,9 @@
 }
 
 /* Tokens tipados */
-%token <string> TOKEN_PRINT TOKEN_TRUE TOKEN_FALSE TOKEN_UNSIGNED_INTEGER TOKEN_REAL
+%token <string> TOKEN_PRINT TOKEN_TRUE TOKEN_FALSE TOKEN_UNSIGNED_INTEGER TOKEN_REAL TOKEN_STRING TOKEN_IDENTIFIER
 
-// TOKEN_DINT TOKEN_DFLOAT TOKEN_IF TOKEN_ELSE TOKEN_FUNC TOKEN_DSTRING  TOKEN_STRING  TOKEN_RETURN TOKEN_IDENTIFIER
+// TOKEN_DINT TOKEN_DFLOAT TOKEN_IF TOKEN_ELSE TOKEN_FUNC TOKEN_DSTRING    TOKEN_RETURN 
 
 /* Tipo de los no-terminales que llevan valor */
 %type <nodo> s lSentencia sentencia expr imprimir lista_Expr bloque primitivo
@@ -81,6 +81,7 @@ imprimir: TOKEN_PRINT '(' lista_Expr ')' { $$ =  nuevoPrintExpresion($3); }
 
 expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
     | expr '-' expr { $$ =  nuevoRestaExpresion($1, $3); }
+    | '(' expr ')' { $$ = $2; }
     | '-' expr %prec NEG  { $$ =  nuevoUnarioExpresion($2);  }
     | expr '=' '=' expr { $$ = nuevoComparacionExpresion($1, $4); }
     | primitivo { $$ = $1; }
@@ -88,8 +89,8 @@ expr: expr '+' expr   { $$ =  nuevoSumaExpresion($1, $3);  }
 
 primitivo: TOKEN_UNSIGNED_INTEGER { $$ =  nuevoPrimitivoExpresion($1, INT); }
     | TOKEN_REAL { $$ =  nuevoPrimitivoExpresion($1, FLOAT); }
-    | TOKEN_TRUE { $$ =  nuevoPrimitivoExpresion($1, BOOLEAN); }
-    | TOKEN_FALSE { $$ =  nuevoPrimitivoExpresion($1, BOOLEAN); }
+    | TOKEN_TRUE { $$ =  nuevoPrimitivoExpresion("1", BOOLEAN); }
+    | TOKEN_FALSE { $$ =  nuevoPrimitivoExpresion("0", BOOLEAN); }
     ;
 %%
 

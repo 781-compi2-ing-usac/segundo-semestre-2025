@@ -1,6 +1,7 @@
 #include "ast/AbstractExpresion.h"
 #include "ast/nodos/instrucciones/instrucciones.h"
 #include "context/context.h"
+#include "cuadruplos/cuadruplos.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,7 +9,7 @@
 /* Declaraciones generadas por Bison/Flex */
 int yyparse(void);
 extern FILE* yyin;
-GeneradorC3D generadorC3D = {};
+GeneradorC3D* generadorC3D = NULL;
 
 AbstractExpresion* ast_root = NULL;
 
@@ -21,13 +22,17 @@ int main(int argc, char** argv) {
     if (yyparse() == 0) {
         if (ast_root) {
             printf("Inicio, cantidad de instrucciones: %ld \n", ast_root->numHijos);
+            
             Context* contextPadre = nuevoContext(NULL);
+            generadorC3D = buildGeneradorC3D();
+
             contextPadre->archivo = fopen("salida.txt", "w");
             if (contextPadre->archivo == NULL) {
                 printf("Error: No se pudo abrir el archivo.\n");
                 return 1;
             }
             ast_root->interpret(ast_root, contextPadre);
+            mostrarC3d(generadorC3D);
             fclose(contextPadre->archivo);
             printf("Fin, arhivo validado.\n");
         } else {

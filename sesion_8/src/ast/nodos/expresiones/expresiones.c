@@ -8,41 +8,44 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
+Direccion* interpretExpresionLenguaje(AbstractExpresion* self, Context* context) {
     ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
 
-    Result izquierda = calcularResultadoIzquierdo(nodo, context);
-    Result derecha = calcularResultadoDerecho(nodo, context);
+    Direccion* izquierda = calcularResultadoIzquierdo(nodo, context);
+    Direccion* derecha = calcularResultadoDerecho(nodo, context);
     
-    TipoDato op = (*nodo->tablaOperaciones)[izquierda.tipo][derecha.tipo];
-    if (op == NULL) {
+    TipoDato tipoResultante = (*nodo->tablaOperaciones)[izquierda->tipo][derecha->tipo];
+    printf("resultado %s\n", labelTipoDato[tipoResultante]);
+    if (tipoResultante == NO_EXISTE) {
         printf("Operación no soportada para los tipos %s, %s\n",
-            labelTipoDato[izquierda.tipo], labelTipoDato[derecha.tipo]);
+            labelTipoDato[izquierda->tipo], labelTipoDato[derecha->tipo]);
             return nuevoValorResultadoVacio();
     }
-    // generar la asignacion con la operacion dada y la funcion especifica
-
-    if (arg1) {
-
-    }
-    Symbol* resultado = nuevoTemporal(derecha.tipo);
-    Cuadruplo cuadruplo = buildCuadruplo(SUMA, arg1, agr2, resultado);
-    //guardar su funcio especifica
+    Direccion* resultado = nuevoTemporalDireccion(generadorC3D->temporal, tipoResultante);
+    generadorC3D->temporal += 1;
+    Cuadruplo* cuadruplo = buildCuadruplo(nodo->operacion, izquierda, derecha, resultado);
+    
     agregarAsignacion(generadorC3D, cuadruplo);
-    return op(izquierda, derecha);
+    return resultado;
 }
 
-Result interpretUnarioLenguaje(AbstractExpresion* self, Context* context) {
+Direccion* interpretUnarioLenguaje(AbstractExpresion* self, Context* context) {
     ExpresionLenguaje* nodo = (ExpresionLenguaje*) self;
-    Result izquierda = calcularResultadoIzquierdo(nodo, context);
+    Direccion* izquierda = calcularResultadoIzquierdo(nodo, context);
 
-    Operacion op = (*nodo->tablaOperaciones)[izquierda.tipo][NULO];
-    if (op == NULL) {
+    TipoDato tipoResultante = (*nodo->tablaOperaciones)[izquierda->tipo][NULO];
+    if (tipoResultante == NO_EXISTE) {
         printf("Operación no soportada para el tipo %s\n", 
-            labelTipoDato[izquierda.tipo]);
+            labelTipoDato[izquierda->tipo]);
         return nuevoValorResultadoVacio();
     }
-    return op(izquierda, nuevoValorResultadoVacio());
+
+    Direccion* resultado = nuevoTemporalDireccion(generadorC3D->temporal, tipoResultante);
+    generadorC3D->temporal += 1;
+
+    Cuadruplo* cuadruplo = buildCuadruplo(nodo->operacion, izquierda, NULL, resultado);
+    agregarAsignacionUnaria(generadorC3D, cuadruplo);
+    return resultado;
 }
 
 ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractExpresion* izquierda, AbstractExpresion* derecha) {
@@ -60,10 +63,10 @@ ExpresionLenguaje* nuevoExpresionLenguaje(Interpret funcionEspecifica, AbstractE
     return nodo;
 }
 
-Result calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context) {
+Direccion* calcularResultadoIzquierdo(ExpresionLenguaje* self, Context* context) {
     return self->base.hijos[0]->interpret(self->base.hijos[0], context);
 }
 
-Result calcularResultadoDerecho(ExpresionLenguaje* self, Context* context) {
+Direccion* calcularResultadoDerecho(ExpresionLenguaje* self, Context* context) {
     return self->base.hijos[1]->interpret(self->base.hijos[1], context);
 }

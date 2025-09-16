@@ -7,10 +7,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Result interpretInstrucciones(AbstractExpresion* self, Context* context) {
+Direccion* interpretInstrucciones(AbstractExpresion* self, Context* context) {
     for (size_t i = 0; i < self->numHijos; ++i) {
         self->hijos[i]->interpret(self->hijos[i], context);
     }
+    return nuevoValorResultadoVacio();
 }
 
 AbstractExpresion* nuevoInstruccionesExpresion() {

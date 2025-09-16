@@ -8,14 +8,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-Result compararIntInt(Result izquierda, Result derecha) {
-    bool* res = malloc(sizeof(bool));
-    *res = *((int*) izquierda.valor) == *((int*) derecha.valor);
-    return nuevoValorResultado(res, BOOLEAN);
-}
-
-Operacion tablaOperacionesComparacion[TIPO_COUNT][TIPO_COUNT] = {
-    [INT][INT] = compararIntInt,
+TipoDato tablaOperacionesComparacion[TIPO_COUNT][TIPO_COUNT] = {
+    [INT][INT] = BOOLEAN,
 };
 
 //builders.h

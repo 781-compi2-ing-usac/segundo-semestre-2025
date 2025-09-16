@@ -2,51 +2,53 @@
 #define CUADRUPLOS_H
 
 #include "context/definiciones.h"
+#include "context/result.h"
 
 //lista de cuadruplos, cada nodo tendra una funcion que traduce a ensamblador con la información que hay en ella
-
-/*
-    la idea es no usar un switch case cuando se recorra esta lista para generar el codigo ensamblador
-*/
-
 typedef enum {
     SUMA,
+    RESTA,
+    MENOS_ARITMETICA,
     MULTIPLICACION,
 } OperacionC3D;
 // para imprimir el resultado
 
+extern char* labelOperacionC3D[];
 typedef void (*GeneradorEnsamblador) ();
 
-struct Cuadruplo {
+typedef struct {
     OperacionC3D operacion;
-    //simular los 3 tipos de memoria
-    //en el resultado
-    Symbol* argumento1;
-    Symbol* argumento2;
-    Symbol* resultado;
+    Direccion* argumento1;
+    Direccion* argumento2;
+    Direccion* resultado;
     GeneradorEnsamblador generar;
-}
+} Cuadruplo;
 
-typedef struct CuadruplosList CuadruplosList;
+typedef struct CuadruploItem CuadruploItem;
 
-struct CuadruplosList {
+struct CuadruploItem {
     Cuadruplo dato;
-    CuadruplosList* siguiente;
-    CuadruplosList* anterior;
-}
+    CuadruploItem* siguiente;
+    CuadruploItem* anterior;
+};
 
-struct GeneradorC3D {
+typedef struct  {
     int temporal;
     int label;
-    CuadruplosList* ultimo;
-}
+    CuadruploItem* ultimo; //listCuadruplos
+    CuadruploItem* primero; //listCuadruplos
+} GeneradorC3D;
+
+extern GeneradorC3D* generadorC3D;
 
 
-Cuadruplo buildCuadruplo(OperacionC3D, Symbol*, Symbol*, Symbol*);
-void mostrarC3d(Cuadruplo);
+GeneradorC3D* buildGeneradorC3D();
 
+Cuadruplo* buildCuadruplo(OperacionC3D, Direccion*, Direccion*, Direccion*);
+void mostrarC3d(GeneradorC3D*);
 
 //instrucciones
-void agregarAsignacion(GeneradorC3D*);
+void agregarAsignacion(GeneradorC3D*, Cuadruplo*);
+void agregarAsignacionUnaria(GeneradorC3D*, Cuadruplo*);
 
 #endif

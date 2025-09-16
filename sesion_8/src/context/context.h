@@ -10,8 +10,6 @@ typedef enum {
     VARIABLE,
     FUNCION,
     STRUCT,
-    TEMPORAL,
-    CONSTANTEC3D
 } Clase;
 
 struct Symbol{
@@ -31,8 +29,7 @@ struct Context {
 
 Context* nuevoContext(Context* anterior);
 Symbol* nuevoVariable(char* nombre, TipoDato tipo);
-Symbol* nuevoTemporal(TipoDato tipo);
-Symbol* nuevoTemporal(TipoDato tipo);
+Symbol* nuevaFuncion(char* nombre, TipoDato tipo);
 
 void agregarSymbol(Context* actual, Symbol*);
 Symbol* buscarSymbol(Symbol* actual, char* nombre);

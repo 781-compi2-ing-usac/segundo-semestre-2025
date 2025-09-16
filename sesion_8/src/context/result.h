@@ -1,53 +1,46 @@
 #ifndef RESULT_H
 #define RESULT_H
 
+#include "context/definiciones.h"
 #include <stdbool.h>
 
 typedef enum {
-    BOOLEAN,
-    CHAR,
-    INT,
-    FLOAT,
-    STRING,
-    NULO,
+    NO_EXISTE,
+    
+    BOOLEAN, CHAR, INT, FLOAT, STRING, NULO,
+    
     TIPO_COUNT
 } TipoDato;
 
 extern char* labelTipoDato[];
+typedef struct Direccion Direccion;
+typedef void (*Implementacion) (Direccion* self);
 
-/* struct Symbol{
+struct Direccion{
     TipoDato tipo;
-    char* nombre;
-    Clase clase;
-    Symbol* anterior;
-}; 
+    char* valor;
+    Implementacion usar;
+};
 
-struct Constante {
-    TipoDato tipo;
-    char* nombre;
-    TipoDireccion tipoDireccion;
-}
-
-struct Temporal {
-    TipoDato tipo;
-    char* nombre;
-    TipoDireccion tipoDireccion;
-}
-
-struct Direccion {
-    
-}
-*/
+typedef struct{
+    Direccion base;
+    Symbol* symbol;
+} NombreDireccion;
 
 typedef struct {
-    TipoDato tipo;
-    //simular los 3 tipos de memoria
-    //en el resultado
-    Symbol* resultado;
-} Result;
+    Direccion base;
+} ConstanteDireccion;
 
-TipoDato tipoResultante(Result, Result);
-Result nuevoValorResultado(void* valor, TipoDato tipo);
-Result nuevoValorResultadoVacio(void);
+typedef struct {
+    Direccion base;
+    int numeroTemporal;
+} TemporalDireccion;
+
+TipoDato tipoResultante(Direccion, Direccion);
+Direccion* nuevoNombreDireccion(char* valor, TipoDato tipo, Symbol* entrada);
+Direccion* nuevoConstanteDireccion(char* valor, TipoDato tipo);
+Direccion* nuevoTemporalDireccion(int numeroTemporal, TipoDato tipo);
+
+Direccion* nuevoValorResultadoVacio(void);
 
 #endif

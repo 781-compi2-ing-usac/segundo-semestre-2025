@@ -12,6 +12,6 @@ typedef struct {
 } InstruccionesExpresion;
 
 AbstractExpresion* nuevoInstruccionesExpresion(void);
-Result interpretInstrucciones(AbstractExpresion* self, Context* context);
+Direccion* interpretInstrucciones(AbstractExpresion* self, Context* context);
 
 #endif

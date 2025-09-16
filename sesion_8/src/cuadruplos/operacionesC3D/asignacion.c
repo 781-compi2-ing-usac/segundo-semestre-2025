@@ -1,11 +1,24 @@
 #include "cuadruplos/cuadruplos.h"
 
-// va agregar a los cuadruplos la operacion de asignacion
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void agregarAsignacion(GeneradorC3D generador, Cuadruplo dato) {
-    struct CuadruplosList item = {dato, NULL, generador->ultimo};
+void generarEnsamblador() {
+    printf("Sin implementar\n");
+}
+
+void agregarAsignacion(GeneradorC3D* generador, Cuadruplo* dato) {
+    dato->generar = generarEnsamblador;
+    
+    CuadruploItem* item = malloc(sizeof(CuadruploItem));
+    item->dato = *dato;
+    item->siguiente = NULL;
+    item->anterior = generador->ultimo;
     if (generador->ultimo) {
         generador->ultimo->siguiente = item;
+    } else {
+        generador->primero = item;
     }
     generador->ultimo = item;
 }

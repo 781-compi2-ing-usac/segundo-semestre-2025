@@ -8,13 +8,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-Result interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
+Direccion* interpretPrimitivoExpresion(AbstractExpresion* self, Context* context) {
     PrimitivoExpresion* nodo = (PrimitivoExpresion*) self;
-    Result resultado = nuevoValorResultado(nodo->valor, nodo->tipo);
-    resultado.isConstante = true;
+    Direccion* resultado = nuevoConstanteDireccion(nodo->valor, nodo->tipo);
+    return resultado;
 }
 
-AbstractExpresion* nuevoPrimitivoExpresion(char* v, char tipo) { //, int lengthValor) {
+AbstractExpresion* nuevoPrimitivoExpresion(char* v, char tipo) {
     //reservar el espacio en memoria y obtener el puntero a este
     PrimitivoExpresion* nodo = malloc(sizeof(PrimitivoExpresion));
     if (!nodo) return NULL;

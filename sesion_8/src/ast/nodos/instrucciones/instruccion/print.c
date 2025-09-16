@@ -7,11 +7,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-Result interpretPrintExpresion(AbstractExpresion* self, Context* context) {
+Direccion* interpretPrintExpresion(AbstractExpresion* self, Context* context) {
     AbstractExpresion* listaExpresiones = self->hijos[0];
     for (size_t i = 0; i < listaExpresiones->numHijos; ++i) {
-        Result result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
+        Direccion* result = listaExpresiones->hijos[i]->interpret(listaExpresiones->hijos[i], context);
         //se cambia su implementación porque ahora debe crear una instruccion de llamada a funcion de imprimir que se implementa en la generacion de codigo
     }
     return nuevoValorResultadoVacio();

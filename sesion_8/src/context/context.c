@@ -18,21 +18,19 @@ Context* nuevoContext(Context* anterior) {
     return nuevo;
 }
 
-Symbol* nuevoVariable(char* nombre, void* valor, TipoDato tipo) {
+Symbol* nuevoVariable(char* nombre, TipoDato tipo) {
     Symbol* nuevo = malloc(sizeof(Symbol));
     nuevo->nombre = nombre;
-    nuevo->valor = valor;
     nuevo->tipo = tipo;
     nuevo->clase = VARIABLE;
     return nuevo;
 }
 
-Symbol* nuevaFuncion(char* nombre, TipoDato tipo, AbstractExpresion* nodo) {
+Symbol* nuevaFuncion(char* nombre, TipoDato tipo) {
     Symbol* nuevo = malloc(sizeof(Symbol));
     nuevo->nombre = nombre;
     nuevo->tipo = tipo;
     nuevo->clase = FUNCION;
-    nuevo->nodo = nodo;
     return nuevo;
 }
 

@@ -6,9 +6,6 @@
 #include "context/context.h"
 #include "ast/nodos/expresiones/expresiones.h"
 
-/* SUMA */
-Result compararIntInt(Result izquierda, Result derecha);
-
-extern Operacion tablaOperacionesComparacion[TIPO_COUNT][TIPO_COUNT];
+extern TipoDato tablaOperacionesComparacion[TIPO_COUNT][TIPO_COUNT];
 
 #endif

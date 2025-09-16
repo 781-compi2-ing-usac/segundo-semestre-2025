@@ -30,3 +30,94 @@ Con el comando `make` ejecuta el archivo y busca todos los archivos con extensi�
 En la ruta `build/calc` tenemos el archivo compilado de nuestro proyecto, la función main recibe un argumento que es la ruta al `archivo de entrada`.
 
 ![alt text](./img/image.png)
+
+
+# Operaciones Aritmeticas
+Se utilizan instrucciones de asignación y asignación unaria.
+
+Entrada
+~~~
+b*-c+b*-c
+~~~
+Código de tres direcciones
+
+![alt text](./img/c3d.png)
+
+Cuádruplos
+
+![alt text](./img/cuadruplos.png)
+
+# Operaciones relacionales
+utilizar saltos condicionales, etiquetas, asignación y asignación unaria. Para guardar los resultados boolean se ve el tipo de la variable y si es boolean antes de ejecutar la expresion se crea un temporal con valor 1 y al finalizar en las etiquetas falsas se asigna a 0.
+
+Entrada
+~~~
+a > b
+~~~
+Código de tres direcciones.
+~~~
+    t0 = 0
+    if a > b goto L1
+    goto L2
+L1:
+    t0 = 1
+L2:
+ //resto sentencias
+~~~
+Cuádruplos
+|Operación                |Argumento 1| Argumento 2 | resultado
+|-------------------------|-| ---|--|
+|=|1||t0
+|j>|a|b|L1
+|=|0||t0
+|label|||L1
+
+# Operaciones lógicas
+utilizar saltos anidados de las operaciones relacionales, código de corto circuito
+
+~~~
+a > 20 and b > 40 and c > 40
+~~~
+Código de tres direcciones.
+~~~
+    t0 = 0
+    if a > 20 goto L1
+    goto L2
+L1: // sentencia verdadero
+    if b > 40 goto L3
+    goto L4
+L3: //sentencia verdadero
+    if c > 40 goto L5
+    goto L6
+L5: //sentencia verdadero
+    t0 = 1
+L2:
+L4:
+L6:
+ // sentencias falsas
+~~~
+
+~~~
+a > 20 or b > 40 or c > 40
+~~~
+Código de tres direcciones.
+~~~
+    t0 = 0
+    if a > 20 goto L1
+    goto L2
+L2: // sentencia falso
+    if b > 40 goto L3
+    goto L4
+L4: //sentencia falso
+    if c > 40 goto L5
+    goto L6
+L6: //sentencia falso
+    goto L7
+L1:
+L3:
+L5:
+ // sentencias verdadera
+    t0 = 1
+L7:
+ // resto sentencias
+~~~
